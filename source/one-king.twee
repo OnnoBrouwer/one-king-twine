@@ -1,0 +1,2891 @@
+:: StoryTitle
+One King to Loot them All
+
+
+:: StoryData
+{
+  "ifid": "FB4506E8-3661-49E0-AE7B-7F8B8C3ABF38",
+  "format": "SugarCube",
+  "format-version": "2.36.1",
+  "start": "Prologue",
+  "tag-colors": {
+    "widget": "green",
+    "room": "yellow"
+  },
+  "zoom": 1
+}
+
+
+:: Achievements {"position":"300,500","size":"100,100"}
+<h2>Achievements</h2><<nobr>>
+<<set _rooms = setup.bitCount($rooms)>>
+<<set _loots = setup.bitCount($loots)>>
+<<set _kills = setup.bitCount($kills)>>
+<<if _rooms == 0>>
+What are you doing here? You have not achieved anything yet! Get back to the game and start playing!
+<<elseif _loots == 0>>
+What are you doing here? You have not looted anything yet! Get back to the game and start looting!
+<<else>>
+<<set _palace = setup.regionCount('Palace',$rooms,0,3)>>
+<<set _river = setup.regionCount('River',$rooms,3,3)>>
+<<set _order = setup.regionCount('Order',$rooms,6,3)>>
+<<set _chaos = setup.regionCount('Chaos',$rooms,9,3)>>
+<<set _crypt = setup.regionCount('Crypt',$rooms,12,5)>>
+<<set _cavern = setup.regionCount('Cavern',$rooms,17,5)>>
+Explored Locations (_rooms/22): _palace _river _order _chaos _crypt _cavern
+<hr>
+Looted Treasures (_loots/11):
+<<if $loots & 1>><br>- Looted your loincloth from your bed<</if>>
+<<if $loots & 2>><br>- Looted a bottle of wine from the dining table<</if>>
+<<if $loots & 4>><br>- Looted your sword from your dragon throne<</if>>
+<<if $loots & 8>><br>- Looted your axe from your battle trophies<</if>>
+<<if $loots & 16>><br>- Looted a gold ring from the sturdy-looking chest<</if>>
+<<if $loots & 32>><br>- Looted Lydia's gold necklace from the ferryman<</if>>
+<<if $loots & 64>><br>- Looted a goat from the altar<</if>>
+<<if $loots & 128>><br>- Looted Lydia from the altar<</if>>
+<<if $loots & 256>><br>- Looted wine from the bottle<</if>>
+<<if $loots & 512>><br>- Looted a vial of holy water from the reliquary<</if>>
+<<if $loots & 1024>><br>- Looted holy water from the vial<</if>>
+<<if _kills != 0>>
+<hr>
+Defeated Enemies (_kills/8):
+<<if $kills & 1>><br>- Defeated the demon in the throne room<</if>>
+<<if $kills & 2>><br>- Defeated the serpent in the dark river<</if>>
+<<if $kills & 4>><br>- Defeated the corpse in the south bank<</if>>
+<<if $kills & 8>><br>- Defeated the corpses in the south bank<</if>>
+<<if $kills & 16>><br>- Defeated the guard in the guard room<</if>>
+<<if $kills & 32>><br>- Defeated Alcaz in the hall of justice<</if>>
+<<if $kills & 64>><br>- Defeated the skeletons in the cavern of bones<</if>>
+<<if $kills & 128>><br>- Defeated the skeletal dragon in the cavern of bones<</if>>
+<</if>>
+<<if $secs != 0>>
+<hr>
+Discovered Secrets (1/1):
+<br>- Tore the veil of causality by seizing a twinkling star
+<</if>>
+<</if>>
+<</nobr>><br>
+<<if $rooms == 0>><<button "Back to prologue" Prologue>><</button>><<elseif $done != 0>><<button "Back to epilogue" Epilogue>><</button>><<else>><<button "Back to game" Room>><<set $conan = 0>><</button>><</if>><<done>><<run $("#passages").addClass("no-t8n")>><</done>>
+
+
+:: Action {"position":"700,300","size":"100,100"}
+$atext
+
+<<if $force != "">><<button Next Action>><<set $hlen = $h.length, $hhit = $hits>><<set $atext = '<<'+$force+'>>'>><<set $force = ''>><</button>><<else>><<if $hlen == $h.length and $hhit == $hits>><<button Back Room>><</button>><<else>><<button Next Room>><<set $hlen = $h.length, $hhit = $hits>><</button>><</if>><</if>><<done>><<run $("#passages").addClass("no-t8n")>><</done>>
+
+
+:: Cavern [widget] {"position":"1100,100","size":"100,100"}
+<<nobr>>
+
+/* cavern1 : Cavern of Bones */
+
+<<widget cavern1>>
+<h2>Cavern of Bones</h2><<set $rooms |= 1<<17>>
+The skeletal remains of creatures, some known to you and others shrouded in mystery, are scattered around you in haphazard arrangements. Towering ribcages create skeletal arches, reminiscent of a labyrinth. An assortment of skulls, varying in size, is strewn across the ground, and their empty eye sockets appear to follow your every step.
+<br><br>
+Paths lead to the <<march north>>, <<march northeast>>, <<march east>>, <<march southeast>>, <<march south>>, <<march southwest>>, <<march west>>, and <<march northwest>>.
+<br><br>
+<<regard Lydia>> is trying to <<treat cavern1 attune>> her spiritual awareness.
+<</widget>>
+
+<<widget treat-cavern1>>
+"My lord," Lydia whispers, "the necromancer is circling us. I sensed his spirit traveling from the southwest to the north."
+<</widget>>
+
+<<widget march-cavern1>>
+<<if $undo>>
+<<set $room = 'cavern1'>>
+The necromancer's sneer fades from memory as you retrace your steps back to the southwest. 
+<<elseif _args[0] == 'northeast'>>
+<<set $h.push('march-cavern1', 1), $room = 'cavern2'>>
+You and Lydia make your way to the northeast, attempting to intercept the necromancer.
+<br><br>
+"Stop your search, //thief//," the necromancer sneers. "There are no treasures here, only old bones. No gold, no silver, no gems... just dry old bones."
+<br><br>
+"My lord," Lydia whispers, "the necromancer is circling us. I sense his spirit moving from the east to the southwest."
+<br><br>
+Out of the corner of your eye, you sense movement in the macabre landscape. Was that a skeletal claw you saw?
+<<else>>
+"My lord," Lydia whispers, "the necromancer is circling us. We should try to predict where he goes and intercept him. I think he is somewhere north."
+<</if>>
+<</widget>>
+
+/* cavern2 : Cavern of Bones */
+
+<<widget cavern2>>
+<h2>Cavern of Bones</h2><<set $rooms |= 1<<18>>
+The skeletal remains of creatures, some known to you and others shrouded in mystery, are scattered around you in haphazard arrangements. Towering ribcages create skeletal arches, reminiscent of a labyrinth. An assortment of skulls, varying in size, is strewn across the ground, and their empty eye sockets appear to follow your every step. A faint mist clings to the floor, its wispy tendrils barely noticeable.
+<br><br>
+Paths lead to the <<march north>>, <<march northeast>>, <<march east>>, <<march southeast>>, <<march south>>, <<march southwest>>, <<march west>>, and <<march northwest>>.
+<br><br>
+<<regard Lydia>> is trying to <<treat cavern2 attune>> her spiritual awareness.
+<</widget>>
+
+<<widget treat-cavern2>>
+"My lord," Lydia whispers, "the necromancer is circling us. I sensed his spirit traveling from the east to the southwest."
+<</widget>>
+
+<<widget march-cavern2>>
+<<if $undo>>
+<<set $room = 'cavern2', $monster = ''>>
+The skeletons surrounding you on all sides collapse into themselves, and the ground beneath your feet grows quiet.
+<br><br>
+The necromancer's roar fades from memory as you retrace your steps back to the east.
+<<elseif _args[0] == 'southwest'>>
+Press onward, for the path you've trod lies behind you now.
+<<elseif _args[0] == 'west'>>
+<<set $h.push('march-cavern2', 7), $room = 'cavern3', $monster = 'skeletons'>>
+You and Lydia make your way to the west, attempting to intercept the necromancer.
+<br><br>
+"Show yourself, necromancer!" you shout. "I am not here to play games with you."
+<br><br>
+A roar echoes through the cavern. "Puny mortal!" the necromancer shouts. "How //DARE// you compare me to those petty humans who can raise a skeleton or two? Let me show you my true power!"
+<br><br>
+The ground beneath your feet trembles. The skeletal remains scattered around you begin to stir. Skeletons of various shapes and sizes rise from the ground, surrounding you on all sides.
+<<else>>
+"My lord," Lydia whispers, "the necromancer is circling us. We should try to predict where he goes and intercept him. I think he is somewhere west."
+<</if>>
+<</widget>>
+
+/* cavern3 : Cavern of Bones */
+
+<<widget cavern3>>
+<h2>Cavern of Bones</h2><<set $rooms |= 1<<19>>
+The skeletal remains of creatures, some known to you and others shrouded in mystery, are scattered around you in haphazard arrangements. Towering ribcages create skeletal arches, reminiscent of a labyrinth. An assortment of skulls, varying in size, is strewn across the ground, and their empty eye sockets appear to follow your every step. A hazy shroud partially obscures some skeletal remains.
+<br><br>
+Paths lead to the <<march north>>, <<march northeast>>, <<march east>>, <<march southeast>>, <<march south>>, <<march southwest>>, <<march west>>, and <<march northwest>>.
+<br><br>
+<<if $monster>>
+Several <<smite skeletons>> encircle you and Lydia, forming a grim assembly of bony figures. Their empty eye sockets seem to glow with malevolence as they inch closer, their skeletal hands reaching out for you.
+<br><br>
+<<regard Lydia>> looks <<treat skeletons defiantly>> at the skeletons, her hands glowing with the power of her deity.
+<<else>>
+<<regard Lydia>> is trying to <<treat cavern3 attune>> her spiritual awareness.
+<</if>>
+<</widget>>
+
+<<widget smite-skeletons>>
+<<switch $cycle>>
+<<case 0>>
+With a single mighty swing of your sword, you cleave through several skeletons at once, shattering their brittle bones into a shower of fragments. Another group of skeletons quickly take their place.
+<<case 1>>
+Your sword arcs through the air, striking true and annihilating a group of skeletons in a single blow, reducing them to a pile of bone shards. Another group of skeletons quickly take their place.
+<<case 2>>
+The power behind your strike is undeniable as your sword cuts a deadly path through the ranks of several skeletons, leaving only scattered bone remnants in its wake. Another group of skeletons quickly take their place.
+<<case 3>>
+As you swing your sword in a wide arc, it connects with a group of skeletons, obliterating them instantly and sending their remains scattering. Another group of skeletons quickly take their place.
+<<default>>
+<<set $cycle = -1>>
+With incredible precision and strength, your sword slices through the skeletal horde, causing multiple skeletons to crumble into pieces. Another group of skeletons quickly take their place.
+<</switch>>
+<<set $cycle++>>
+<</widget>>
+
+<<widget treat-skeletons>>
+<<if $undo>>
+<<set $monster = 'skeletons'>>
+Lydia's blast converges from the far reaches of the cavern, ending up at her wrists, which she lowers. Skeletons of various shapes and sizes rise from the ground, surrounding you on all sides again.
+<br><br>
+Your request for assistance from Lydia fades from memory.
+<<else>>
+<<set $h.push('treat-skeletons'), $monster = '', $kills |= 1<<6>>
+"Lydia," you say, "I need your help. I have fought countless battles against numerous enemies, but this enemy... this army is without end. Can you assist me with your magic?"
+<br><br>
+"I daresay I can," Lydia replies. Lydia raises her arms above her head, crossing them at their wrists. She then speaks but a simple word, almost as a whisper:
+<br><br>
+//TURN//
+<br><br>
+An invisible power emanates from her figure, spreading like a powerful blast outwards to the far reaches of the cavern, causing the skeletons surrounding you to disintegrate into numerous fragments that collapse to the cavern floor.
+<br><br>
+"My lord," Lydia whispers, "the necromancer is still circling us. I sense his spirit moving from the northwest to the east."
+<br><br>
+Out of the corner of your eye, you sense movement in the macabre landscape. Was that a skeletal tail you saw?
+<</if>>
+<</widget>>
+
+<<widget treat-cavern3>>
+"My lord," Lydia whispers, "the necromancer is circling us. I sensed his spirit traveling from the northwest to the east."
+<</widget>>
+
+<<widget march-cavern3>>
+<<if $undo>>
+<<set $room = 'cavern3'>>
+The necromancer's sneer fades from memory as you retrace your steps back to the northwest.
+<<elseif $monster>>
+To march away in the skeletons' presence would be an affront to your honor.
+<<elseif _args[0] == 'east'>>
+Press onward, for the path you've trod lies behind you now.
+<<elseif _args[0] == 'southeast'>>
+<<set $h.push('march-cavern3', 3), $room = 'cavern4'>>
+You and Lydia make your way to the southeast, attempting to intercept the necromancer.
+<br><br>
+"So, your priestess can mass turn the undead. How //fortunate// for you," the necromancer sneers. "Come to me, you and your priestess, and let her try to turn //ME//."
+<br><br>
+"My lord," Lydia whispers, "the necromancer has stopped circling us; he is now due north of us."
+<br><br>
+Out of the corner of your eye, you sense movement in the macabre landscape. Was that a skeletal wing you saw?
+<<else>>
+"My lord," Lydia whispers, "the necromancer is circling us. We should try to predict where he goes and intercept him. I think he is somewhere east."
+<</if>>
+<</widget>>
+
+/* cavern4 : Cavern of Bones */
+
+<<widget cavern4>>
+<h2>Cavern of Bones</h2><<set $rooms |= 1<<20>>
+The skeletal remains of creatures, some known to you and others shrouded in mystery, are scattered around you in haphazard arrangements. Towering ribcages create skeletal arches, reminiscent of a labyrinth. An assortment of skulls, varying in size, is strewn across the ground, and their empty eye sockets appear to follow your every step. Mist blankets the ground, obscuring some of the smaller skeletal remains.
+<br><br>
+Paths lead to the <<march north>>, <<march northeast>>, <<march east>>, <<march southeast>>, <<march south>>, <<march southwest>>, <<march west>>, and <<march northwest>>.
+<br><br>
+<<regard Lydia>> is trying to <<treat cavern4 attune>> her spiritual awareness.
+<</widget>>
+
+<<widget treat-cavern4>>
+"My lord," Lydia whispers, "the necromancer has stopped circling us. He is now due north of us."
+<</widget>>
+
+<<widget march-cavern4>>
+<<if $undo>>
+<<set $room = 'cavern4', $monster = ''>>
+Lydia calms down as the massive form of the skeletal dragon disintegrates into countless skeletal fragments, which vanish into the shadows of the macabre landscape.
+<br><br>
+You retrace your steps back to the south.
+<<elseif _args[0] == 'northwest'>>
+Press onward, for the path you've trod lies behind you now.
+<<elseif _args[0] == 'north'>>
+<<set $h.push('march-cavern4', 0), $room = 'cavern5', $monster = 'dragon'>>
+You and Lydia make your way to the north.
+<br><br>
+In the heart of this dimly lit cavern, a sinister spectacle unfolds as you and Lydia step into view. Emerging from the shadows of the macabre landscape, an unsettling assembly begins to take shape. Countless skeletal fragments, ranging from colossal ribcages to jagged wing bones, converge and piece together like a grotesque puzzle.
+<br><br>
+As the skeletal dragon materializes before your eyes, its massive form is composed of these disjointed bones, coalescing into a nightmarish whole. The skeletal dragon then turns its massive head toward you and speaks, "Welcome, O King of Thieves, welcome, and bear witness to my power!"
+<br><br>
+"My lord," Lydia says, trembling, "he's right. The power which emanates from him, it's... beyond anything I have ever felt. I... cannot turn him."
+<<else>>
+"My lord," Lydia whispers, "The necromancer is due north of us."
+<</if>>
+<</widget>>
+
+/* cavern5 : Cavern of Bones */
+
+<<widget cavern5>>
+<h2>Cavern of Bones</h2><<set $rooms |= 1<<21>>
+The skeletal remains of creatures, some known to you and others shrouded in mystery, are scattered around you in haphazard arrangements. Towering ribcages create skeletal arches, reminiscent of a labyrinth. An assortment of skulls, varying in size, is strewn across the ground, and their empty eye sockets appear to follow your every step. Mist blankets the ground, obscuring some of the smaller skeletal remains.
+<br><br>
+<<if $door>>
+On the floor, a <<march 'magical sigil'>> shimmers with eerie energy.
+<br><br>
+<<regard Alcaz>> is urging you to move swiftly, lest the portal closes on you.
+<br><br>
+<<regard Lydia>> is urging you to move swiftly, lest the portal closes on you.
+<<else>>
+<<switch $hits>>
+<<case 0>>
+The skeletal <<smite dragon>> is a nightmarish monstrosity. Composed entirely of eerie bone fragments, it stands tall and imposing. This skeletal behemoth radiates an overwhelming aura of dark magic and power.
+<<case 1>>
+Some of the skeletal components of the skeletal <<smite dragon>> show signs of damage and wear, its overall structure remains intact. It stands tall and menacing, still exuding a powerful and malevolent presence.
+<<case 2>>
+The once-imposing form of the skeletal <<smite dragon>> begins to show significant signs of damage and decay. Several skeletal fragments are now cracked or missing, and its movements are less coordinated. Despite this, the dragon still poses a considerable threat and remains a dangerous adversary.<<if $shield>> A spherical <<regard shield>> of dark magic protects the dragon from all attacks.<</if>>
+<</switch>>
+<<if !$alcaz>>
+<br><br>
+<<if $shield>>
+<<regard Alcaz>> is studying the shielded skeletal dragon with a <<treat puzzled>> look on his face.
+<<else>>
+<<regard Alcaz>> is studying the <<treat puzzled weakened>> skeletal dragon.
+<</if>>
+<</if>>
+<br><br>
+<<regard Lydia>> looks <<treat dragon horrified>> at the dragon.
+<</if>>
+<</widget>>
+
+<<widget treat-dragon>>
+<<if $vial == 1>>
+"My lord," Lydia whispers, "now is the time to make use of that vial!"
+<<elseif !$alcaz and $shield>>
+"My lord," Lydia whispers, "talk to Alcaz, he may be able to help us." 
+<<else>>
+"My lord," Lydia whispers, "make use of your divine power!"
+<</if>>
+<</widget>>
+
+<<widget regard-shield>>
+The shield appears to protect the dragon against all attacks.
+<</widget>>
+
+<<widget loot-vial>>
+<<if $undo>>
+<<set $vial = 1>>
+The radiant energy of your sword diminishes as the holy water gradually refills the vial. Finally, the vial seals itself shut.
+<<elseif $monster == 'dragon'>>
+<<set $h.push('loot-vial'), $vial = 2, $loots |= 1<<10>>
+You open the vial of holy water and trickle its contents onto the blade of your sword. A radiant energy surges through the weapon, illuminating it with a divine glow. The phoenix on the sword seems to come alive, its fiery outline dancing with newfound intensity.
+<<else>>
+Keep the vial closed, you might need its contents later.
+<</if>>
+<</widget>>
+
+<<widget smite-dragon>>
+<<if $undo>>
+<<set $monster = 'dragon', $door = 0, $alcaz = -1>>
+The magical sigil recedes until it is but a memory. The force of Corruption gathers from the recesses of the cavern, and enters into the remains of the fallen dragon.
+<br><br>
+The magical barrier restores itself, and the mist melts. Your conversation with Alcaz fades from memory. Alcaz appears to dissolve into the mist, his form gradually dissipating into nothingness. 
+<br><br>
+The skeletal dragon drops its magical shield and regenerates its shattered bones, drawing dark energy from the macabre landscape. The fractured fragments reassemble, mending the damage you had inflicted.
+<<elseif $vial == 1>>
+As you swing your sword at the skeletal dragon, you feel the blade encounter unexpected resistance. Despite the brittle and decayed state of the dragon's bones, they possess a dark magic that renders them resilient to your strike.
+<<elseif $shield == 1>>
+As you swing your sword at the skeletal dragon, its dark magic shield halts your attack.
+<<if $alcaz>>
+<<set $alcaz = 0>>
+<br><br>
+"Need some magic?" a familiar voice asks. From within the mist, a figure materializes, gradually becoming more defined against the shifting backdrop. Alcaz emerges, his form taking shape as if coalescing from the very essence of the mist. As he fully steps out of the mist, his form solidifies, becoming as tangible as before. "Seems you are facing quite the enemy here, can someone tell me what happened?"
+<</if>>
+<<elseif $hits == 0>>
+<<set $hits = 1>>
+As you smite the skeletal dragon with your holy-imbued sword, the blade strikes true, creating a brilliant burst of radiant energy upon impact. The dragon's bony frame shudders and some of its skeletal fragments crack and break.
+<<elseif $hits == 1>>
+<<set $hits = 2, $shield = 1>>
+As your blade, infused with the power of the phoenix, slashes through the skeletal dragon's bones once more, a shudder runs through its monstrous form. The relentless assault has taken a significant toll, causing it to struggle to maintain its terrifying visage.
+<br><br>
+"You will //NOT// defeat me," the skeletal dragon roars. With a surge of dark magic, it summons a spherical shield, blocking all but the mist drifting across the floor.
+<<else>>
+<<set $h.push('smite-dragon'), $monster = '', $hits = 0, $door = 1, $kills |= 1<<7>>
+As you swing your sword at the skeletal dragon, its weakened form shudders and convulses. The blade, infused with the power of the phoenix and guided by your unwavering determination, slices through the remaining bones with ease. In a spectacular burst of radiant energy, the skeletal dragon disintegrates into countless fragments.
+<br><br>
+The force of Corruption within the skeletal dragon starts to unravel. It forms a black cloud that rises from the remains of the fallen dragon and flees into the dimly lit recesses of the cavern, retreating from the overwhelming force of righteousness that has shattered its vessel.
+<br><br>
+A magical sigil, shimmering with ethereal energy, manifests at your feet. 
+<</if>>
+<</widget>>
+
+<<widget treat-puzzled>>
+<<if $shield>>
+<<set $shield = 0>>
+You briefly recount your adventures since you left the palace with Lydia, tactfully omitting the encounter with Alcaz at the Hall of Justice.
+<br><br>
+"I see," Alcaz remarks as he studies the dragon's spherical shield. "A nice shield, but it is flawed." He then slams his staff forcefully into the ground. With a brief incantation, he channels his magic into the cavern, causing the mist to freeze. The mist inside the spherical shield freezes as well, shattering the magical barrier with its icy grip. "He's all yours now."
+<<else>>
+"I destroyed his shield, he's all yours now," Alcaz says.
+<</if>>
+<</widget>>
+
+<<widget march-cavern5>>
+<<if $undo>>
+<<set $room = 'cavern5', $door = 1, $present = ''>>
+A magical sigil, shimmering with ethereal energy, manifests at the east wall. 
+<br><br>
+A surge of magical energy envelops your party, briefly blinding you before receding into darkness. As your vision clears, you find yourselves in the cavern of bones.
+<<elseif _args[0] == 'south'>>
+Press onward, for the path you've trod lies behind you now.
+<<elseif _args[0] == 'magical sigil'>>
+<<set $h.push('march-cavern5', 5), $room = 'crypt', $door = 0, $present = 'bottle'>>
+A surge of magical energy envelops your party, briefly blinding you before receding into darkness. As your vision clears, you find yourselves in the crypt of the sage. The magical sigil at the east wall recedes until it is but a memory.
+<br><br>
+"Welcome back," says the sage, "and just about time. Fighting the forces of Corruption is dry work." The sage glances at your bottle of wine and clears his throat. "Very dry work."
+<<else>>
+Our path diverges from our purpose, let's realign our course.
+<</if>>
+<</widget>>
+
+<</nobr>>
+
+
+:: Chaos [widget] {"position":"1100,500","size":"100,100"}
+<<nobr>>
+
+/* chaos1 : Path of Chaos */
+
+<<widget chaos1>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<9>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin, with paths leading to the <<march north>>, <<march east>>, <<march southeast>>, <<march south>>, <<march west>>, and <<march northwest>>. The paths to the northeast and southwest are broken and end in darkness.
+<br><br>
+An ancient weathered <<regard marker>> dominates the island.
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the marker, looking for any indication of <<if $marker3 == 2>><<treat marker guidance>><<else>>guidance<</if>>.
+<<else>>
+<<regard Lydia>> is trying hard not to look at the growing <<if $marker2>>darkness<<else>><<treat marker darkness>><</if>> around the island.
+<</if>>
+<</widget>>
+
+<<widget regard-marker>>
+<<if $alcaz == 0 or $marker3 == 0>>
+The monolithic marker is devoid of runes or markings on its surface.
+<<elseif $marker3 == 1>>
+The monolithic marker is littered with small cracks across its surface.
+<<elseif $marker3 == 2>>
+The monolithic marker's surface is fractured, revealing glimpses of the ancient stone's interior.
+<<else>>
+The monolithic marker has been broken, revealing a path leading <<march downward>>.
+<</if>>
+<</widget>>
+
+<<widget treat-marker>>
+<<if $undo and !$alcaz>>
+<<set $marker3 = 2>>
+The words you exchanged with Alcaz dissolve, and memories fade. You no longer remember how the gods responded to your jest.
+<<elseif $undo>>
+<<set $marker2 = 0>>
+The words you exchanged with Lydia dissolve, and memories fade. You no longer remember how you reassured her.
+<<elseif _args[0] == 'guidance'>>
+<<set $h.push('treat-marker'), $marker3 = 3>>
+Alcaz's expression turns from amusement to regret as he realizes the situation. "My lord," he says, his voice filled with chagrin, "it appears the gods have taken our jest seriously. There are no runes to guide us. We must rely on our instincts and choose a path."
+<<else>>
+<<set $h.push('treat-marker'), $marker2 = 1>>
+"Lydia," you say with calm assurance, "trust in my instincts, and we'll find our way through this together."
+<</if>>
+<</widget>>
+
+<<widget march-chaos1>>
+<<if $undo>>
+<<set _a = $wind[9 - _args[0]], $room = 'chaos1'>>
+You retrace your steps, heading to the _a, and the path reappears beneath your feet as you progress.
+<<elseif $alcaz and !$marker2>>
+You realize that Lydia has frozen in place, her eyes wide with fear, and her body trembling.
+<<else>>
+<<set _a = $wind.indexOf(_args[0]), _b = $wind[9 - _a], $h.push('march-chaos1', _a)>>
+<<switch _a>>
+<<case 0 9>><<set $room = 'chaos2V'>>
+<<case 2 7>><<set $room = 'chaos2H'>>
+<<default>><<set $room = 'chaos2D'>>
+<</switch>>
+<<if !$alcaz>>
+Following the path to the _args[0], you and Alcaz forge ahead. The journey across the void is harrowing, but you reach the next island safely.<<if $marker3 == 3>> The gods are not done with you yet, however.<</if>> The paths stretching to the _b, and the one directly ahead leading to the _args[0] also disintegrate into darkness. The choices narrow, and the uncertainty of your surroundings deepens.
+<<else>>
+Following the path to the _args[0], you and Lydia forge ahead. The journey across the void is harrowing, but you reach the next island safely. The paths stretching to the _b, and the one directly ahead leading to the _args[0] also disintegrate into darkness. The choices narrow, and the uncertainty of your surroundings deepens.
+<br><br>
+"My lord," Lydia says, "this place... it's unnerving."
+<br><br>
+"Do not be afraid," you reassure her. "My instinct tells me we have almost reached the end."
+<</if>>
+<</if>>
+<</widget>>
+
+/* chaos2V : Path of Chaos */
+
+<<widget chaos2V>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<10>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin, with paths leading to the <<march east>>, <<march southeast>>, <<march west>>, and <<march northwest>>. The paths to the north, northeast, south, and southwest are broken and end in darkness.
+<br><br>
+An ancient weathered <<regard marker>> dominates the island.
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the marker, looking for any indication of guidance.
+<<else>>
+<<regard Lydia>> is trying hard not to look at the growing darkness around the island.
+<</if>>
+<</widget>>
+
+<<widget march-chaos2V>>
+<<if $undo>>
+<<set _a = $wind[9 - _args[0]], $room = 'chaos2V'>>
+You retrace your steps, heading to the _a, and the path reappears beneath your feet as you progress.
+<<else>>
+<<set _a = $wind.indexOf(_args[0]), _b = $wind[9 - _a], $h.push('march-chaos2V', _a)>>
+<<if !$alcaz>>
+<<if _a == 2 or _a == 7>><<set $room = 'chaos3D'>><<else>><<set $room = 'chaos3H'>><</if>>
+Resolute in your decision, you and Alcaz proceed along the _args[0]ern path, making your way to the next island. Again, the paths behind, stretching to the _b, and the one directly ahead, leading to the _args[0], disintegrate into darkness. Now only two paths remain.
+<<else>>
+<<set $room = 'chaos4'>>
+Resolute in your decision, you and Lydia proceed along the _args[0]ern path, making your way to the next island. Once again, the paths behind you, stretching to the _b, and the one directly ahead, leading to the _args[0], disintegrate into darkness. To your shock, the last two paths leading away from the island also disintegrate into darkness.
+<br><br>
+"My lord," Lydia says, "what do we do now? It seems we have no paths left to follow."
+<</if>>
+<</if>>
+<</widget>>
+
+/* chaos2H : Path of Chaos */
+
+<<widget chaos2H>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<10>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin, with paths leading to the <<march north>>, <<march southeast>>, <<march south>>, and <<march northwest>>. The paths to the northeast, east, southwest, and west are broken and end in darkness.
+<br><br>
+An ancient weathered <<regard marker>> dominates the island.
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the marker, looking for any indication of guidance.
+<<else>>
+<<regard Lydia>> is trying hard not to look at the growing darkness around the island.
+<</if>>
+<</widget>>
+
+<<widget march-chaos2H>>
+<<if $undo>>
+<<set _a = $wind[9 - _args[0]], $room = 'chaos2H'>>
+You retrace your steps, heading to the _a, and the path reappears beneath your feet as you progress.
+<<else>>
+<<set _a = $wind.indexOf(_args[0]), _b = $wind[9 - _a], $h.push('march-chaos2H', _a)>>
+<<if !$alcaz>>
+<<if _a == 0 or _a == 9>><<set $room = 'chaos3D'>><<else>><<set $room = 'chaos3V'>><</if>>
+Resolute in your decision, you and Alcaz proceed along the _args[0]ern path, making your way to the next island. Again, the paths behind, stretching to the _b, and the one directly ahead, leading to the _args[0], disintegrate into darkness. Now only two paths remain.
+<<else>>
+<<set $room = 'chaos4'>>
+Resolute in your decision, you and Lydia proceed along the _args[0]ern path, making your way to the next island. Once again, the paths behind you, stretching to the _b, and the one directly ahead, leading to the _args[0], disintegrate into darkness. To your shock, the last two paths leading away from the island also disintegrate into darkness.
+<br><br>
+"My lord," Lydia says, "what do we do now? It seems we have no paths left to follow."
+<</if>>
+<</if>>
+<</widget>>
+
+/* chaos2D : Path of Chaos */
+
+<<widget chaos2D>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<10>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin, with paths leading to the <<march north>>, <<march east>>, <<march south>>, and <<march west>>. The paths to the northeast, southeast, southwest, and northwest are broken and end in darkness.
+<br><br>
+An ancient weathered <<regard marker>> dominates the island.
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the marker, looking for any indication of guidance.
+<<else>>
+<<regard Lydia>> is trying hard not to look at the growing darkness around the island.
+<</if>>
+<</widget>>
+
+<<widget march-chaos2D>>
+<<if $undo>>
+<<set _a = $wind[9 - _args[0]], $room = 'chaos2D'>>
+You retrace your steps, heading to the _a, and the path reappears beneath your feet as you progress.
+<<else>>
+<<set _a = $wind.indexOf(_args[0]), _b = $wind[9 - _a], $h.push('march-chaos2D', _a)>>
+<<if !$alcaz>>
+<<if _a == 0 or _a == 9>><<set $room = 'chaos3H'>><<else>><<set $room = 'chaos3V'>><</if>>
+Resolute in your decision, you and Alcaz proceed along the _args[0]ern path, making your way to the next island. Again, the paths behind, stretching to the _b, and the one directly ahead, leading to the _args[0] disintegrate into darkness. Now only two paths remain.
+<<else>>
+<<set $room = 'chaos4'>>
+Resolute in your decision, you and Lydia proceed along the _args[0]ern path, making your way to the next island. Once again, the paths behind you, stretching to the _b, and the one directly ahead, leading to the _args[0], disintegrate into darkness. To your shock, the last two paths leading away from the island also disintegrate into darkness.
+<br><br>
+"My lord," Lydia says, "what do we do now? It seems we have no paths left to follow."
+<</if>>
+<</if>>
+<</widget>>
+
+/* chaos3D : Path of Chaos */
+
+<<widget chaos3D>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<11>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin. Only the paths to the <<march southeast>> and <<march northwest>> remain,
+<br><br>
+An ancient weathered <<regard marker>> dominates the island.
+<br><br>
+<<regard Alcaz>> is studying the marker, looking for any indication of guidance.
+<</widget>>
+
+<<widget march-chaos3D>>
+<<if $undo>>
+<<set _a = $wind[9 - _args[0]], $room = 'chaos3D', $glow = 1>>
+You retrace your steps, heading upward and to the _a.
+<<else>>
+<<set _a = $wind.indexOf(_args[0]), _b = $wind[9 - _a], $h.push('march-chaos3D', _a), $room = 'guardroom', $glow = 0>>
+With your choice made, you and Alcaz continue along the _args[0]ern path. It leads you down into what appears to be a guard room.
+<</if>>
+<</widget>>
+
+/* chaos3H : Path of Chaos */
+
+<<widget chaos3H>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<11>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin. Only the paths to the <<march east>> and <<march west>> remain,
+<br><br>
+An ancient weathered <<regard marker>> dominates the island.
+<br><br>
+<<regard Alcaz>> is studying the marker, looking for any indication of guidance.
+<</widget>>
+
+<<widget march-chaos3H>>
+<<if $undo>>
+<<set _a = $wind[9 - _args[0]], $room = 'chaos3H', $glow = 1>>
+You retrace your steps, heading upward and to the _a.
+<<else>>
+<<set _a = $wind.indexOf(_args[0]), _b = $wind[9 - _a], $h.push('march-chaos3H', _a), $room = 'guardroom', $glow = 0>>
+With your choice made, you and Alcaz continue along the _args[0]ern path. It leads you down into what appears to be a guard room.
+<</if>>
+<</widget>>
+
+/* chaos3V : Path of Chaos */
+
+<<widget chaos3V>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<11>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin. Only the paths to the <<march north>> and <<march south>> remain,
+<br><br>
+An ancient weathered <<regard marker>> dominates the island.
+<br><br>
+<<regard Alcaz>> is studying the marker, looking for any indication of guidance.
+<</widget>>
+
+<<widget march-chaos3V>>
+<<if $undo>>
+<<set _a = $wind[9 - _args[0]], $room = 'chaos3V', $glow = 1>>
+You retrace your steps, heading upward and to the _a.
+<<else>>
+<<set _a = $wind.indexOf(_args[0]), _b = $wind[9 - _a], $h.push('march-chaos3V', _a), $room = 'guardroom', $glow = 0>>
+With your choice made, you and Alcaz continue along the _args[0]ern path. It leads you down into what appears to be a guard room.
+<</if>>
+<</widget>>
+
+/* chaos4 : Path of Chaos */
+
+<<widget chaos4>>
+<h2>Path of Chaos</h2><<set $rooms |= 1<<11>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin. All paths around you are broken and end in darkness.
+<br><br>
+An ancient weathered <<smite marker>> dominates the island. The monolithic marker<<switch $marker3>><<case 0>> is devoid of runes or markings on its surface<<case 1>> is littered with small cracks across its surface<<case 2>>'s surface is fractured, revealing glimpses of the ancient stone's interior<<default>> has been broken, revealing a path leading <<march downward>><</switch>>.
+<br><br>
+<<regard Lydia>> is trying hard not to look at the growing darkness around the island.
+<</widget>>
+
+<<widget smite-marker>>
+<<if $undo>>
+<<set $marker3 = 0>>
+The fiery phoenix on your sword's blade fades and disappears. The broken fragments of the marker fuse together, mending the marker's form. The air shimmers with arcane energy as the marker is made whole once more.
+<<elseif $marker3 == 0>>
+<<set $h.push('smite-marker'), $marker3 = 1>>
+Across the mists of time the words of the sage come to you: //"When all paths seem lost, strike the monolith thrice, and I will open a path."//
+<br><br>
+As you strike the marker, small cracks appear on the previously smooth surface, and fine stone dust drifts into the air.
+<<elseif $marker3 == 1>>
+<<set $marker3 = 2>>
+You strike the marker once more. Chunks of stone chip away, and the once-pristine marker shows signs of wear and distress.
+<<elseif $marker3 == 2>>
+<<set $marker3 = 3>>
+As your sword connects with the marker, a fiery phoenix materializes on your sword's blade in a brilliant outline. Lydia gasps, "The immortal phoenix!"
+<br><br>
+With your third strike, the marker succumbs to your relentless assault and shatters into several pieces, revealing a path leading downward.
+<<else>>
+The monolithic marker has already been broken.
+<</if>>
+<</widget>>
+
+<<widget march-chaos4>>
+<<if $undo>>
+<<set $room = 'chaos4', $glow = 1>>
+You retrace your steps, heading back to the Path of Chaos.
+<<else>>
+<<set $h.push('march-chaos4', 5), $room = 'guardroom', $glow = 0>>
+You and Lydia make your way down the revealed path.
+<</if>>
+<</widget>>
+
+<</nobr>>
+
+
+:: Children [widget] {"position":"700,500","size":"100,100"}
+<<nobr>>
+
+/* Conan */
+
+<<widget regard-Conan>>
+Your muscles ripple beneath your sun-tanned skin. You are definitely as good-looking as ever<<if $room == 'hall' and $axe < 0 and !$door>>, and you are protected by a sphere of mystical defense against arcane attacks<</if>>.
+<</widget>>
+
+<<widget regard-loincloth>>
+Made of the finest leather, perfect for guarding your primal essence.
+<</widget>>
+
+<<widget regard-bottle>>
+<<if $bottle == 1>>
+The bottle is closed and filled with the finest wine. You'd rather <<loot bottle drink>> the wine than just look at it.
+<<else>>
+The bottle is open and empty.
+<</if>>
+<</widget>>
+
+<<widget regard-vial>>
+<<if $vial == 1>>
+The vial holds a pure and luminescent <<loot vial liquid>>, casting a gentle, ethereal light around it.
+<<else>>
+The vial is open and empty.
+<</if>>
+<</widget>>
+
+<<widget regard-sword>>
+<<if $sword == 1>>
+Your favorite sword, made of the finest steel<<if !$lydia and $marker3 == 3>>. A fiery phoenix adorns the blade of your sword in a brilliant outline<</if>>.
+<<else>>
+The hilt is intricately crafted. Without its blade, which disappeared along with the demon, it is merely a pretty bauble.<<if ! $axe>> You should consider re-arming yourself with another weapon.<</if>>
+<</if>>
+<</widget>>
+
+<<widget regard-axe>>
+<<if $axe == 1>>
+A double-bladed axe, a relic of a battle fought a long time ago.
+<<else>>
+The axe handle shows signs of extensive use. Without its blades, which disappeared along with the demon, it is merely a pretty piece of steel.<<if ! $sword>> You should consider re-arming yourself with another weapon.<</if>>
+<</if>>
+<</widget>>
+
+<<widget regard-ring>>
+A solid gold ring of high quality.
+<</widget>>
+
+<<widget regard-goat>>
+The goat might serve as a suitable sacrifice to appease the gods.
+<</widget>>
+
+/* Alcaz */
+
+<<widget regard-Alcaz>>
+Alcaz, your court mage, strikes an imposing figure, wearing a mage's <<regard robe>> and carrying his <<regard staff>> of arcane magic.<<if $room == 'hall'>> He stands before you,<<if $room == 'hall' and $axe < 0>> enveloped in a <<smite sphere>> of mystical defense,<</if>> a haunting vision of what he once was. His eyes are now cold and vacant, bearing no trace of <<treat sorcerer recognition>>.<</if>>
+<</widget>>
+
+<<widget regard-robe>>
+<<regard Alcaz>>'s robe is adorned with intricate embroidery and arcane symbols.
+<</widget>>
+
+<<widget regard-staff>>
+<<regard Alcaz>>'s staff, adorned with a polished crystal orb enclosing what looks like a miniature phoenix, exudes an air of ancient wisdom.<<if $glow>> It emits a soft, ethereal glow.<</if>>
+<</widget>>
+
+/* Lydia */
+
+<<widget regard-Lydia>>
+Lydia, your court priestess, exudes a divine radiance, wearing a temple <<regard dress>><<if $necklace == 0>> and a gold <<regard necklace>> of Mitora<</if>> with an otherworldly grace<<if $room == 'hall' and $axe < 0 and !$door>>. She is enveloped in a sphere of mystical defense<</if>>.
+<</widget>>
+
+<<widget regard-dress>>
+<<regard Lydia>>'s dress is a flowing garment, adorned with delicate patterns.
+<</widget>>
+
+<<widget regard-necklace>>
+<<regard Lydia>>'s gold <<if $room == 'northbank' and $alcaz and $treat and !$necklace>><<treat necklace>><<else>>necklace<</if>> features an intricately designed phoenix pendant.<<if $glow>> It emits a soft, ethereal glow.<</if>>
+<</widget>>
+
+<</nobr>>
+
+
+:: Credits {"position":"300,100","size":"100,100"}
+<h2>Credits</h2>This story is written by Onno Brouwer. The game concept is inspired by the Single Choice Jam 2023 premise: to build a game with a single choice. The original story is inspired by the works of Robert E. Howard in general, and the short story "The Phoenix on the Sword," in particular, first published in Weird Tales magazine in December 1932.
+
+This game "One King to Loot them All" is the choice-based game written in Twine for <a href="https://www.springthing.net/2024/" target=”_blank”>Spring Thing 2024</a>.
+
+The game <a href="https://ifdb.org/viewgame?id=jephaktzt5svmav1" target=”_blank”>"One King to Loot them All"</a> is the parser-based game written in Inform7 for <a href="https://ifcomp.org/comp/2023" target=”_blank”>IFComp 2023</a>.
+
+Original cover art by RION.
+
+Many thanks to:
+- The <a href="https://neointeractives.tumblr.com/" target=”_blank”>Neo-Interactives Group</a> for organizing the Single Choice Jam which led to the creation of the original parser game upon which this game is based.
+- Pinkunz, for making the suggestion to bring the story to a choice engine.
+- Manonamora, for helping me getting started in Twine and her <a href="https://manonamora.itch.io/twine-sugarcube-guide" target="_blank">100% Good Twine Sugarcube Guide</a>.
+- Agnieszka Trzaska, for beta testing this game.
+- All the kind folk at <a href="https://intfiction.org/" target=”_blank”>intfiction.org</a> who helped me navigate the wonderful world of IF.
+
+This is a work of fiction. Any names or characters, businesses or places, events or incidents, are fictitious. Any resemblance to actual entities, living, dead, undead, or immortal, or actual events is purely coincidental.
+
+<<if $rooms == 0>><<button "Back to prologue" Prologue>><</button>><<elseif $done != 0>><<button "Back to epilogue" Epilogue>><</button>><<else>><<button "Back to game" Room>><<set $conan = 0>><</button>><</if>><<done>><<run $("#passages").addClass("no-t8n")>><</done>>
+
+
+:: Crypt [widget] {"position":"1100,300","size":"100,100"}
+<<nobr>>
+
+/* guardroom : Guard Room */
+
+<<widget guardroom>>
+<h2>Guard Room</h2><<set $rooms |= 1<<12>>
+At the center of the room stands a serene statue of the <<treat goddess 'Goddess of Justice'>>, holding a <<regard tablet 'stone tablet'>> etched with intricate runes<<if $door and !$lydia>>. The statue has been displaced, exposing a path to the <<march east>><<elseif $present>>; her features softened, almost as if she were alive<</if>>. A small path leads upward into darkness. In the <<march north>> and <<march south>> sides of the room, open archways lead deeper into the unknown.
+<br><br>
+<<if $alcaz or !$tablet or $monster>>
+Guarding the open archways, two formidable <<regard guards>> in tattered armor and gaunt faces with milky eyes stand at attention. They grip massive, <<regard axes 'notched axes'>> with an air of unyielding determination.
+<<else>>
+Guarding the open archways, a formidable guard in <<smite guard 'tattered armor'>> and a <<treat guard 'gaunt face'>> with milky eyes stands at attention. He grips his massive, notched axe with an air of unyielding determination.
+<</if>>
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the runes on the stone tablet.
+<<else>>
+<<regard Lydia>> is studying the runes on the stone tablet.
+<</if>>
+<</widget>>
+
+<<widget regard-axes>>
+The notched axes look massive and well-suited for the task.
+<</widget>>
+
+<<widget regard-guards>>
+You realize that the two guards are positioned too far apart. Their strategic arrangement makes it impossible for you to interact with both guards at once. You'll need to interact with <<regard guard 'one of the guards'>> individually. 
+<</widget>>
+
+<<widget regard-guard>>
+The guard wears <<smite guard 'tattered armor'>> and has a <<treat guard 'gaunt face'>> with milky eyes.
+<</widget>>
+
+<<widget regard-tablet>>
+<<if $undo and !$alcaz>>
+<<set $tablet = 0, $monster = ''>>
+The words you exchanged with Alcaz dissolve, and memories fade. You no longer remember what the runes on the stone tablet say.
+<<elseif $undo>>
+<<set $tablet = 0>>
+The words you exchanged with Lydia dissolve, and memories fade. You no longer remember what the runes on the stone tablet say.
+<<elseif $tablet and !$alcaz>>
+You regard the stone tablet held by the statue of the Goddess of Justice once more. As you try to decipher the intricate runes, you realize that these runes are far beyond your comprehension. Fortunately, Alcaz told you that the tablet speaks of guardians who watch over the paths of Life and Death, providing answers to a single question, in truth or falsehood.
+<<elseif $tablet>>
+You regard the stone tablet held by the statue of the Goddess of Justice once more. As you try to decipher the intricate runes, you realize that these runes are far beyond your comprehension. Fortunately, Lydia told you that the tablet describes the path of Justice, which is guarded by the Goddess. "Approach the Goddess and fulfill her request, and she will open the path of Justice," she concluded.
+<<elseif !$alcaz>>
+<<set $h.push('regard-tablet'), $tablet = 1, $monster = 'guard'>>
+You turn to Alcaz, requesting his assistance in deciphering the runes. As Alcaz touches the stone tablet, a jolt of energy courses through his body. You watch with concern as he steadies himself. With a deep, resonant voice noticeably different from his usual tone, Alcaz begins to speak about the text on the tablet.
+<br><br>
+"These guardians," Alcaz intones, "watch over the paths of Life and Death. One guard embodies truth, while the other embodies falsehood. You may ask but a single question to a single guardian. Heed his words wisely, for the path you choose shall determine your destiny." As he finishes, Alcaz takes a moment to catch his breath, his voice returning to its familiar tone. He appears disoriented for a moment but recovers quickly.
+<<else>>
+<<set $h.push('regard-tablet'), $tablet = 1>>
+You turn to Lydia, requesting her assistance in deciphering the runes. She touches the tablet and begins to speak about the text inscribed upon it. She explains that the tablet speaks of guardians who watch over the paths of Life and Death, providing answers to a single question, in truth or falsehood. Lydia then goes on to describe the path of Justice, which is guarded by the Goddess. "Approach the Goddess and fulfill her request, and she will open the path of Justice," Lydia concludes.
+<br><br>
+You ask Lydia why she had no trouble reading the tablet but could not bear to watch the runes on the markers of the Path of Order.
+<br><br>
+"Different languages," Lydia replies, "the markers bear runes of the Language of the Dead, the language of Corruption. This tablet bears runes of the Language of the Living, the language of Justice. Only agents of Corruption would have trouble reading it."
+<</if>>
+<</widget>>
+
+<<widget treat-goddess>>
+<<if $undo>>
+<<set $present = ''>>
+The Goddess's presence recedes from the statue, and the words you exchanged with her dissolve, and memories fade. You no longer remember what the Goddess requested of you.
+<<elseif !$alcaz>>
+The statue of the Goddess of Justice stands as still and unyielding as stone, unmoved by your attempts to engage with it. 
+<<elseif $tablet and !$present and !$door>>
+<<set $h.push('treat-goddess'), $present = 'you'>>
+"O Goddess of Justice," you begin, "I stand before you seeking your favor. I recognize the importance of your path, and I am ready to prove my worthiness to tread it."
+<br><br>
+The statue seems to come to life, its marble features softening as if infused with the spirit of the Goddess herself. Then, an ethereal and commanding voice resonates in the chamber. "To open the path of Justice," it intones, "you must present to me your greatest weapon, one embodying the true spirit of justice."
+<<elseif $present>>
+"To open the path of Justice," it intones, "you must present to me your greatest weapon, one embodying the true spirit of justice."
+<<else>>
+The statue of the Goddess of Justice stands as still and unyielding as stone, unmoved by your attempts to engage with it.
+<</if>>
+<</widget>>
+
+<<widget present-you>>
+<<if $undo>>
+<<set $door = 0, $present = 'you'>>
+The statue seems to come to life and shifts once more, hiding the entrance to the east.
+<<else>>
+<<switch _args[0]>>
+<<case 'your sword'>>
+"A sword," she intones, "a powerful tool. But true greatness lies not in a tool."
+<<case 'an axe handle'>>
+"An axe handle," she intones, "surely you have a greater weapon to offer."
+<<case 'a bottle of wine'>>
+"A bottle of wine," she intones, "surely you have a greater weapon to offer."
+<<case 'your loincloth'>>
+"Your loincloth," she intones, "surely you have a greater weapon to offer."
+<<case 'you'>>
+<<set $h.push('present-you'), $present = '', $door = 1>>
+You step forward, offering not your weapon, but an oath: "I present to you, O Goddess, my unwavering commitment to upholding justice and fairness."
+<br><br>
+The voice of the Goddess resonates once more. "The greatest weapon is the heart committed to justice. Your pledge has been heard, and your sincerity recognized. The path of Justice is now open to you."
+<br><br>
+The Goddess's presence recedes from the statue, and as the statue shifts, an entrance behind it to the east is revealed.
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget smite-guard>>
+<<if $undo>>
+<<set $monster = 'guard'>>
+A swirling cloud of ethereal particles appears, coalescing into the form of a guard. The guard then picks up his fallen axe and resumes his guard duty.
+<<elseif $alcaz and $tablet>>
+"My lord," Lydia says, "these guards from the ethereal plane block our path. Should I turn them?"
+<br><br>
+"No need," you answer, "we need to walk the path of Justice, not the paths of Life or Death."
+<<elseif $alcaz>>
+"My lord," Lydia says, "we should decipher the runes on the tablet, we do not know under which laws these guards operate." 
+<<elseif !$tablet>>
+"My lord," Alcaz says, "we should decipher the runes on the tablet, we do not know under which laws these guards operate."
+<<elseif $monster>>
+<<set $h.push('smite-guard'), $monster = '', $kills |= 1<<4>>
+You draw your axe and swiftly bring it down upon one of the guards. As your axe slices into the guard's body, a spray of ethereal sparks erupts from the guard. He lets out an unearthly scream and then disintegrates into a swirling cloud of particles, leaving no bodily remains.
+<br><br>
+Noticing the shocked expression of Alcaz, you tell him, "With enemies from the ethereal plane I prefer to smite first and treat later, Alcaz. It keeps negotiations short and honest." You can see Alcaz still seems taken aback by your swift action, but he nods in understanding.
+<<elseif $door>>
+You raise your weapon, ready to strike down the guard who has just given you his answer. Alcaz intervenes, his voice urgent and commanding. "My lord, we have the knowledge we sought," Alcaz implores, his eyes locked onto yours. "There's no need for further violence. Smiting this guard serves no purpose." 
+<<else>>
+You raise your weapon, ready to strike down the remaining guard. Alcaz intervenes, his voice urgent and commanding. "My lord, we need information from this guard," Alcaz implores, his eyes locked onto yours. "We must know which archway we should enter. Smiting him now will leave us in the dark." 
+<</if>>
+<</widget>>
+
+<<widget treat-guard>>
+<<if $undo>>
+<<set $door = 0>>
+The words you exchanged with the guard dissolve, and memories fade. You no longer remember which way leads to the path of Life.
+<<elseif $alcaz and $tablet>>
+"My lord," Lydia says, "these guards from the ethereal plane block our path. Should I turn them?"
+<br><br>
+"No need," you answer, "we need to walk the path of Justice, not the paths of Life or Death."
+<<elseif $alcaz>>
+"My lord," Lydia says, "we should decipher the runes on the tablet, we do not know under which laws these guards operate."
+<<elseif !$tablet>>
+"My lord," Alcaz says, "we should decipher the runes on the tablet, we do not know under which laws these guards operate."
+<<elseif $monster>>
+You stand before one guard, then the other, unsure of which one to approach.
+<<elseif $door>>
+The guard remains silent. Belatedly, you remember that the guard will answer one question, and one question only.
+<<else>>
+<<set $h.push('treat-guard'), $door = 1>>
+"Now," you say to the remaining guard, "which way would your partner have indicated as the path of Life?"
+<br><br>
+"He would have directed you to the north," the guard replies.
+<br><br>
+"Well," you respond, "since he is no longer with us, and I fear he may have spoken falsely, I shall choose to travel south."
+<</if>>
+<</widget>>
+
+<<widget march-guardroom>>
+<<if !$lydia>>
+<<if $undo>>
+<<set $room = 'guardroom', $door = 1>>
+You retrace your steps with a determined air, retreating back to the guard room.
+<<elseif !$tablet>>
+"My lord," Lydia says, "we should decipher the runes on the tablet, we do not know under which laws these guards operate." 
+<<elseif _args[0] == 'east'>>
+<<set $h.push('march-guardroom', 2), $room = 'hall', $door = 0>>
+With the path of Justice now revealed, you and Lydia step forward with a profound sense of purpose and determination.
+<<else>>
+"My lord," Lydia says, "these guards from the ethereal plane block our path. Should I turn them?"
+<br><br>
+"No need," you answer, "we need to walk the path of Justice, not the paths of Life or Death."
+<</if>>
+<<elseif $undo>>
+<<set $room = 'guardroom', $door = 1, $alcaz = 0>>
+You rise from the pit and step off the treacherous tile. Then, you retrace your steps, retreating back to the guard room.
+<<elseif !$tablet>>
+"My lord," Alcaz says, "we should decipher the runes on the tablet. Straying blindly might lead us into even deeper peril."
+<<elseif $monster>>
+"My lord," Alcaz says, "we should treat with one of the guards to learn which archway we should enter. Straying blindly might lead us into even deeper peril." 
+<<elseif !$door>>
+"My lord," Alcaz says, "we should treat with the remaining guard to learn which archway we should enter. Straying blindly might lead us into even deeper peril." 
+<<elseif _args[0] == 'north'>>
+"My Lord," Alcaz says, "we should follow the path of Life to the south. The question you asked was the right one; the answer would always be spoken in falsehood. The guard told us north, so we must go south." 
+<<else>>
+<<set $h.push('march-guardroom', 9), $room = 'pit', $door = 0, $alcaz = -1>>
+As you stride through the south archway, something feels amiss. You turn to check on Alcaz, only to see him suddenly pulled backward by an invisible force, his eyes wide with alarm as he vanishes into the darkness.
+<br><br>
+As your attention briefly shifts from the path ahead, your foot lands on a loose tile on the floor. With a sudden, treacherous lurch, the tile gives way beneath your weight, and you find yourself tumbling down into a concealed pit, surrounded by darkness.
+<br><br>
+Your resolute spirit remains undeterred. The enemy will come to you. You stand ready, eager to bestow upon him a most fiery welcome. Now might be a good time to combat your exhaustion with some liquid fire.
+<</if>>
+<</widget>>
+
+/* pit : Pit of Darkness */
+
+<<widget pit>>
+<h2>Pit of Darkness</h2><<set $rooms |= 1<<13>>
+The air is heavy, and the dim light filtering down from above barely illuminates the walls. There appear to be no exits, except for the way you fell in. The <<regard walls>> of the pit are slippery, and <<march climbing>> them appears to be a futile effort.
+<</widget>>
+
+<<widget regard-walls>>
+The pit walls appear too slippery to climb.
+<</widget>>
+
+<<widget march-pit>>
+You cannot scale the slippery walls. You are trapped, with no means of escape.
+<</widget>>
+
+<<widget loot-bottle>>
+<<if $undo>>
+<<set $bottle = 1, $room = 'pit'>>
+You ignore the echo of the sage calling out to you and retreat into the gray mist. After a while, you wake up, feeling less drowsy.
+<br><br>
+You see the wine gradually filling the bottle once more, and your head clears. Finally, the bottle closes itself, and it now looks as if you never drank from it.
+<<elseif $room == 'pit'>>
+<<set $h.push('loot-bottle'), $bottle = 2, $room = 'corridor', $loots |= 1<<8>>
+As you drain your bottle of wine, the liquid rolls down your throat, leaving behind a warm, soothing sensation. The alcohol begins to take effect, and a pleasant drowsiness washes over you. Your eyelids grow heavy, and soon, you drift into a deep slumber.
+<br><br>
+Through a swirling gray mist, you hear a curious call, faint and distant. Though you do not understand it, it seems beyond your power to ignore it. With axe in hand, you move through the gray mist. The voice becomes clearer as you proceed until you recognize the words it speaks - it is your own name being called.
+<<else>>
+Now's not the time to drown your worries.
+<</if>>
+<</widget>>
+
+/* corridor : Dark Corridor */
+
+<<widget corridor>>
+<h2>Dark Corridor</h2><<set $rooms |= 1<<14>>
+The corridor appears to be cut from a single stone. It is unlit, but by some magic, you can see clearly. To the <<march east>> is an archway curving to the north. To the <<march west>>, the corridor ends in gray mist.
+<</widget>>
+
+<<widget march-corridor>>
+<<if $undo>>
+<<set $room = 'corridor'>>
+You retrace your steps with a determined air, retreating back to the dark corridor.
+<<elseif _args[0] == 'west'>>
+Turn your gaze ahead, for there's no honor in retracing your steps.
+<<else>>
+<<set $h.push('march-corridor', 2), $room = 'crypt'>>
+You stride purposefully from the dark corridor, your powerful legs carrying you with a determined pace as you head east.
+<</if>>
+<</widget>>
+
+/* hall : Hall of Justice */
+
+<<widget hall>>
+<h2>Hall of Justice</h2><<set $rooms |= 1<<16>>
+The grandeur of the Hall of Justice exudes an air of opulence and power. Ornate archways lead to the <<march north>>, <<march west>>, and <<march south>>. The floor of the hall is shrouded in a dense, swirling mist, giving the sensation of walking atop the clouds.
+<br><br>
+In the heart of the hall, rising like a small island from the mist, stands a sacred reliquary. The <<regard reliquary>>, meticulously crafted from the purest gold, emanates an aura of divine reverence.
+<br><br>
+<<if !$vial>>
+<<regard Lydia>> is enraptured by the sacred reliquary.
+<<elseif $door>>
+A circle of light is lit in the mist, leading <<march down>> into the unknown.
+<br><br>
+<<regard Lydia>> is urging you to move swiftly, lest the portal closes on you.
+<<elseif $axe < 0>>
+<<regard Alcaz>> stands before you enveloped in a sphere of mystical defense, a haunting vision of what he once was.
+<br><br>
+<<regard Lydia>> is enveloped in a sphere of mystical defense and focused on Alcaz, watching his every move.
+<<elseif $present>>
+<<regard Alcaz>> stands before you, a haunting vision of what he once was.
+<br><br>
+<<regard Lydia>> is holding out her hand to you, expecting you to present something to her.
+<<else>>
+<<regard Alcaz>> stands before you, a haunting vision of what he once was.
+<br><br>
+<<regard Lydia>> is focused on Alcaz, watching his every move.
+<</if>>
+<</widget>>
+
+<<widget regard-reliquary>>
+<<if $vial>>
+Atop the reliquary, the golden clasps, shaped like flower petals, now stand empty.
+<<else>>
+Atop the reliquary, <<loot reliquary something>> is held securely in place by golden clasps shaped like flower petals, as if the reliquary is cradling it with the utmost care.
+<</if>>
+<</widget>>
+
+<<widget loot-reliquary>>
+<<if $undo>>
+<<set $vial = 0, $alcaz = -1>>
+Alcaz's accusations dissolve, and memories fade. You no longer remember what Alcaz accused you of. Alcaz becomes gradually less distinct as the mist thickens around him. His hands lift in a graceful gesture, fingers tracing unseen patterns in the air. With each step, Alcaz appears to dissolve into the mist, his form gradually dissipating into nothingness. 
+<br><br>
+You carefully place the vial of holy water in the reliquary and close the golden petals over it.
+<<else>>
+<<set $h.push('loot-reliquary'), $vial = 1, $alcaz = 0, $loots |= 1<<9>>
+With careful precision, you manipulate the golden clasps. A soft click fills the air as the clasps release their hold. With great care, you open the petals and lift a vial of holy water out of its resting place. Just as you secure the vial, a disembodied voice, cold and mocking, emerges from the swirling mist in the room.
+<br><br>
+"Once a thief, always a thief," the voice accuses. From within the mist, a figure materializes, gradually becoming more defined against the shifting backdrop. Alcaz emerges, his form taking shape as if coalescing from the very essence of the mist. As he fully steps out of the mist, his form solidifies, becoming as tangible as before. 
+<br><br>
+"As the King, you merely legalize your thefts and call them taxes," Alcaz continues, his voice once more a deep, resonant voice somehow sounding familiar to you.
+<br><br>
+"My lord," Lydia whispers, "Alcaz is not himself. He's under control of the necromancer. Be cautious. Try to distract him while I probe his defenses."
+<</if>>
+<</widget>>
+
+<<widget treat-sorcerer>>
+<<if $undo>>
+<<set $present = ''>>
+Your banter with the necromancer dissolves, and memories fade. You no longer remember how you defended yourself against his accusations.
+<<elseif $present or $axe < 0>>
+Alcaz is on guard and ignores your attempts to further distract him. 
+<<else>>
+<<set $h.push('treat-sorcerer'), $present = 'axe2'>>
+"My rule is just," you assert. "Taxes are lower than ever, and the people are content. I dethroned my predecessor to restore peace and quiet in the kingdom."
+<br><br>
+"You served justice in true barbaric fashion," the necromancer retorts, "by tearing the crown off his gory head and setting it on your own. Civilization is lost on you."
+<br><br>
+"Civilized men are more discourteous than savages because they know they can be impolite without having their skulls split," you reply. "The more I see of what you call civilization, the more highly I think of what you call barbarism!"
+<br><br>
+"My lord," Lydia whispers, "I think I have found a way. Please give me that piece of steel you keep lugging around."
+<br><br>
+"What is this," the necromancer says, interrupting the conversation with you. "Priestess, what are you doing? Trying to match your magic against mine?"
+<</if>>
+<</widget>>
+
+<<widget present-axe2>>
+<<if $undo>>
+<<set $present = 'axe2', $axe = 2>>
+A spiked ball of ice forms around your defensive sphere, flies toward Alcaz, dissipates, and Alcaz and Lydia drop their mystical defenses. Lydia then returns the broken axe handle to you.
+<<else>>
+<<switch _args[0]>>
+<<case 'you'>>
+You present yourself to Lydia. "My lord," she says, slightly irritated, "I asked for that axe handle you keep lugging around."
+<<case 'your loincloth'>>
+You present your loincloth to Lydia. "My lord," she says, slightly irritated, "I asked for that axe handle you keep lugging around."
+<<case 'a bottle of wine'>>
+You present the bottle of wine to Lydia. "My lord," she says, slightly irritated, "I asked for that axe handle you keep lugging around."
+<<case 'a vial of holy water'>>
+You present the vial of holy water to Lydia. "My lord," she says, slightly irritated, "I asked for that axe handle you keep lugging around."
+<<case 'your sword'>>
+You present your sword to Lydia. "My lord," she says, slightly irritated, "I asked for that axe handle you keep lugging around."
+<<case 'an axe handle'>>
+<<set $h.push('present-axe2'), $present = '', $axe = -1>>
+You surreptitiously pass the broken axe handle to Lydia, who hides it in the folds of her dress. "Ready when you are, my lord," Lydia says as she recites a brief prayer, enveloping both you and herself in a sphere of mystical defense.
+<br><br>
+Alcaz notices the sphere enveloping you and promptly raises his own mystical defense with a brief gesture. He then creates a spiked ball of ice by making a circular throwing motion with his hands, sending it flying across the room toward you. It explodes upon impact with the defensive sphere, causing a deafening ringing in your ears.
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget smite-sphere>>
+<<if $undo>>
+<<set $alcaz = 0, $door = 0>>
+The lit circle in the center of the room fades, and darkness moves from it to the place where Alcaz fell before it, too, fades into the mist. Alcaz rises from the mist, the bump on the back of his head vanishing, and the broken axe handle flies back into Lydia's hand. Your battle cry fades as you retreat, wildly swinging your sword.
+<<else>>
+<<set $h.push('smite-sphere'), $alcaz = -1, $door = 1, $kills |= 1<<5>>
+You charge toward Alcaz, your sword poised for attack. A fierce battle cry erupts from deep within you, echoing through the room as you swing your sword with all your might. Alcaz snaps his fingers and teleports away from you, towards Lydia. Lydia recites a prayer, and Alcaz reinforces his mystical defense, while Lydia raises her hand, glowing with the power of her deity.
+<br><br>
+You charge at Alcaz again, who turns to face you just as Lydia lowers her hand. Surprise appears on Alcaz's face as he is struck by the broken axe handle thrown by Lydia. It passes right through his mystical defense, causing him to drop into the mist like a sack of sand, knocked unconscious. "I cannot win against Alcaz when fighting magic with magic," Lydia says. "He did not expect a mundane attack from me, however." Lydia smiles.
+<br><br>
+The mist darkens where Alcaz fell, and the darkened area moves to the center of the room. Then, a circle lights up in the mist, and the darkness is swallowed by the circle. "My lord!" Lydia says urgently. "The necromancer's spirit is escaping! We'd better follow it before the portal closes!"
+<</if>>
+<</widget>>
+
+<<widget march-hall>>
+<<if $undo>>
+<<set $room = 'hall', $door = 1>>
+The necromancer's sneer dissolves, and memories fade. You no longer remember how the necromancer greeted you. A circle of light appears far above you, and you and Lydia slowly ascend, accelerating, until you pass through the portal, emerging into the Hall of Justice.
+<<elseif _args[0] == 'down'>>
+<<set $h.push('march-hall', 5), $room = 'cavern1', $door = 0>>
+As you and Lydia jump through the portal, the world around you blurs. You emerge from a circle of light at the top of a colossal cavern, vast and dimly lit. Below you stretches a massive chamber filled with countless skeletal remains of creatures known and unknown to you. Lydia recites a brief prayer, and your fall is slowed into a gentle descent, eventually landing amidst the skeletal remains with a soft thud. The circle of light far above you fades into the darkness.
+<br><br>
+"Welcome to my domain, //thief//," the necromancer sneers, his voice echoing through the cavern. "There will be no escape for you this time."
+<br><br>
+"My lord," Lydia whispers, "the necromancer is circling us. I sense his spirit traveling from the southwest to the north."
+<<elseif _args[0] == 'west'>>
+Turn your gaze ahead, for there's no honor in retracing your steps.
+<<elseif $door>>
+Our path diverges from our purpose, let's realign our course.
+<<else>>
+Your instincts tell you that there's more to be done here before you can depart.
+<</if>>
+<</widget>>
+
+/* crypt : Crypt of the Sage */
+
+<<widget crypt>>
+<h2>Crypt of the Sage</h2><<set $rooms |= 1<<15>>
+An old white-bearded man sits cross-legged atop a moss-covered <<regard tomb>>. To the <<march south>> is an ornate archway leading back to the corridor.<<if $door>> On the north wall, a <<march 'magical sigil'>> shimmers with eerie energy.<</if>>
+<br><br>
+The <<treat sage>> <<if $present>>is holding out his hand to you, expecting you to present something to him<<else>>fixes his piercing gaze on you<</if>>.
+<<if !$alcaz>>
+<br><br>
+<<regard Alcaz>> is bowing in <<treat deference>> to the sage.
+<br><br>
+<<regard Lydia>> is gazing in <<treat admiration>> at the sage.
+<</if>>
+<</widget>>
+
+<<widget treat-deference>>
+"My lord," Alcaz says with a grin, "we are in the esteemed presence of Salcor, the head of our order."
+<</widget>>
+
+<<widget treat-admiration>>
+"My lord," Lydia says with a serene smile, "we are in the presence of a vessel of Mitora, a wise and noble being."
+<</widget>>
+
+<<widget regard-tomb>>
+The moss-covered tomb is engraved with a phoenix.
+<</widget>>
+
+<<widget present-bottle>>
+<<if $undo>>
+<<set $present = 'bottle', $bottle = 1>>
+Your bottle of wine reappears in the sage's hand, where it refills and closes itself. The sage then hands the bottle back to you, a sad expression on his face.
+<<elseif _args[0] == 'a bottle of wine'>>
+<<set $h.push('present-bottle'), $present = '', $bottle = -1>>
+The sage graciously accepts the bottle of wine, opens it, and takes a long sip, savoring the taste. He drains the bottle in one long gulp, lets out a contented belch, and then makes the empty bottle disappear with a flick of his fingers.
+<br><br>
+"Thank you," the sage says, "I feel much better now. Let's get down to business."
+<<else>>
+The sage politely refuses your offering. Only the finest wine is good enough for him.
+<</if>>
+<</widget>>
+
+<<widget treat-sage>>
+<<if $undo and $alcaz>>
+<<if $treat == 1>>
+<<set $treat = 0, $present = ''>>
+The crypt briefly blurs and distorts, then returns to normal. The sage waves goodbye.
+<<else>>
+<<set $treat = 1>>
+The crypt briefly blurs and distorts, then returns to normal. The sage winks at you.
+<</if>>
+<<elseif $undo>>
+<<if $treat == 1>>
+<<set $treat = 0>>
+Your conversation with the sage fades from memory. You no longer remember why the sage started a religion and an order of mages.
+<<elseif $treat == 2>>
+<<set $treat = 1>>
+Your conversation with the sage fades from memory. You no longer remember why the sage chose all three of you to be his Children of Destiny.
+<<else>>
+<<set $treat = 2, $door = 0>>
+Your conversation with the sage fades from memory, and you no longer remember the extinction of the dragons.
+<</if>>
+<<elseif $present>>
+"I believe you have something to share with me," the sage says, holding out his hand expectantly.
+<<elseif $alcaz>>
+<<switch $treat>>
+<<case 0>>
+<<set $h.push('treat-sage'), $treat = 1, $present = 'axe1'>>
+"Hail, Child of Destiny," the sage says, "and listen. A primal force of Corruption has arisen and walks the mortal plane once more. I have summoned you here to guide and prepare you for your destiny. Show me the weapon you used to defeat the minions of our enemy."
+<<case 1>>
+<<set $h.push('treat-sage'), $treat = 2, $mode = -1>>
+You explain the paths of Order and Chaos that you have traveled together with Alcaz, and that in the end, only the paths of Life and Death remained.
+<br><br>
+"Peace!" the sage says. "I fear your friend has been deceived. The paths of Order and Chaos are treacherous and cannot be fully trusted. Too often, the learned study writings shaping the reader's mind, ensnaring them to do their bidding."
+<br><br>
+"Reverse the flow of time and find a companion who can guard themselves from spiritual interference. Only then will you stand a chance of finding the right path. When all paths seem lost, strike the monolith thrice, and I will open a path and provide you with protection against the force of Corruption," the sage concludes.
+<<default>>
+"I am no god," the sage chuckles. "Occasionally, a priest blunders into my crypt, and I find it amusing that religious leaders don't expect their gods to talk back to them, much less complain."
+<br><br>
+"The veil of causality has been torn. Now reverse the flow of time and fulfill your destiny!" the sage says.
+<</switch>>
+<<elseif $treat == 0>>
+<<set $h.push('treat-sage'), $treat = 1, $force = 'treat-sage'>>
+"It seems you are leading a busy life, old man," you say, looking at your enraptured party members. "Starting both a religion and an order of mages?"
+<br><br>
+"Child of Destiny, I have lived for over 1500 years, and well, after a few centuries, life tends to get pretty boring. But undertaking these endeavors was not a whim. I needed both mages and priests to combat the forces of Corruption from the ethereal plane."
+<br><br>
+Lydia awakes from her admiration. "Child of Destiny? You told me in my dreams that you are the vessel of Mitora, and that I was chosen as your Child of Destiny!" she says with an accusing tone. Alcaz responds, "This cannot be. Salcor here told me in my dreams that I was his Child of Destiny."
+<br><br>
+Alcaz and Lydia both look at you and then at the sage. "Why did you choose our King? He is a barbarian!"
+<<elseif $treat == 1>>
+<<set $h.push('treat-sage'), $treat = 2, $force = 'treat-sage'>>
+"Muscle Power," the sage responds. "And he is a natural leader. Besides, the forces of Corruption are legion. Why should I limit myself to choosing a single Child of Destiny, hmm?" The sage looks at Lydia. "You, my Child, tend to attract attention to yourself at the most inopportune times, endangering yourself in the process."
+<br><br>
+The sage turns to Alcaz. "As for you, my Child, you tend to be overly curious, and you let yourself get corrupted by paying too much attention to scriptures written in the Language of the Dead." The sage turns to you. "And as for you, my Child, you tend to blunder about, not paying attention to where you are going, and fall into the first pit you come across."
+<br><br>
+"With such Children of Destiny to work with, it doesn't hurt to have a backup plan," the sage chuckles.
+<<elseif $treat == 2>>
+<<set $h.push('treat-sage'), $treat = 3, $door = 1>>
+"Although we were victorious in sending the force of Corruption back to the ethereal plane, we have lost much," the sage says. "Magical creatures are special, and the dragons were the greatest of them all before they were all killed by humans. Your Dragon Throne is a testament to that. No wonder the force of Corruption targeted you when it took possession of the skeletal dragon," the sage continues. "But there was no malice when the last of its kind died; I only felt an infinite sense of loss."
+<br><br>
+The sage snaps his fingers, and another magical sigil, shimmering with ethereal energy, manifests at the north wall.
+<br><br>
+"Lydia," the sage continues, "take your King back to the Palace. He needs to recover from his fight with the dragon. As for you, Alcaz, I would like you to stay for a while. We need to discuss the future of magic within the realm."
+<<else>>
+"I am no god," the sage chuckles. "Occasionally, a priest blunders into my crypt, and I find it amusing that religious leaders don't expect their gods to talk back to them, much less complain."
+<br><br>
+"Now go! You should go back to the palace and get some rest!" the sage says.
+<</if>>
+<</widget>>
+
+<<widget present-axe1>>
+<<if $undo>>
+<<set $present = 'axe1'>>
+You hand your axe to the sage, who returns your axe to you.
+<<else>>
+<<switch _args[0]>>
+<<case 'you'>>
+The sage politely refuses your offering. He wants to study the weapon, not the man.
+<<case 'your loincloth'>>
+The sage politely refuses your offering. Your loincloth is not the evidence he seeks.
+<<case 'an empty bottle'>>
+The sage politely refuses your offering. An empty bottle is not the evidence he seeks.
+<<case 'your axe'>>
+<<set $h.push('present-axe1'), $present = ''>>
+You present your axe to the sage. He touches the blade of the axe, and the blade's edge becomes translucent for a moment, radiating ethereal energy, before it reverts to normal.
+<br><br>
+"You have faced entities of the ethereal plane," he says. He hands the axe back to you and continues, "Walk the Path of Justice with her blessing, fulfill your destiny, and bring balance to this world once more."
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget march-crypt>>
+<<if $undo>>
+<<set $room = 'crypt', $door = 1>>
+A magical sigil, shimmering with ethereal energy, manifests at the south wall.
+<br><br>
+A surge of magical energy envelops you and Lydia, briefly blinding you before receding into darkness. As your vision clears, you find yourselves in the crypt of the sage.
+<<elseif !$alcaz and $treat < 3>>
+The sage warns you, "hold, Child of Destiny. I am not done with you yet."
+<<elseif $alcaz and $treat < 2>>
+The sage warns you, "hold, Child of Destiny. I am not done with you yet."
+<<elseif $alcaz>>
+The sage warns you, "hold, Child of Destiny. Walking back does not reverse the flow of time."
+<<elseif _args[0] == 'south'>>
+Our path diverges from our purpose, let's realign our course.
+<<else>>
+<<set $h.push('march-crypt', 0), $room = 'bedroom', $door = 0>>
+A surge of magical energy envelops you and Lydia, briefly blinding you before receding into darkness. As your vision clears, you find yourselves in your bedroom.
+<br><br>
+The magical sigil recedes until it is but a memory.
+<</if>>
+<</widget>>
+
+<</nobr>>
+
+
+:: Epilogue {"position":"500,300","size":"100,100"}
+<h2>Epilogue</h2>"My Lord," Lydia says, "I never had a chance to properly thank you for saving my life from the demon in the throne room. Do you believe there is an afterlife?"
+
+"I do not know," you admit. "I do not look beyond death. Let me live deep while I live, and I am content."
+
+"My lord," Lydia whispers as she embraces you, "You may now sheathe your blade and rest your battle-weary soul."
+
+Thank you for playing
+
+''One King to Loot them All''
+A Tale of High Adventure
+
+<<button "Credits" "Credits">><</button>> <<button "Achievements" "Achievements">><</button>><<done>><<run $("#passages").addClass("no-t8n")>><</done>>
+
+
+:: Order [widget] {"position":"900,500","size":"100,100"}
+<<nobr>>
+
+/* order1 : Path of Order */
+
+<<widget order1>>
+<h2>Path of Order</h2><<set $rooms |= 1<<6>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin, with paths leading to the <<march north>>, <<march northeast>>, <<march east>>, <<march southeast>>, <<march south>>, <<march southwest>>, <<march west>>, and <<march northwest>>.
+<br><br> 
+An ancient weathered <<regard marker1 marker>> dominates the island. Its monolithic surface is etched with intricate runic script, pulsing with an otherworldly energy<<if $marker1 and !$alcaz>>, directing you to march <<march east>><</if>>.
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the runic script on the marker.
+<<else>>
+<<regard Lydia>> is trying hard not to look at the runic script on the marker.
+<</if>>
+<</widget>>
+
+<<widget regard-marker1>>
+<<if $undo and !$alcaz>>
+<<set $marker1 = 0>>
+Your memory of reading the marker runes fades, and you no longer remember the direction they indicated.
+<<elseif $undo>>
+<<set $marker1 = 0>>
+You briefly hear the enticing voices, but you ignore them.
+<<elseif !$alcaz and $marker1>>
+As you gaze once more upon the monolithic marker, the message remains the same, reaffirming its guidance to the east.
+<<elseif !$alcaz>>
+<<set $h.push('regard-marker1'), $marker1 = 1>>
+The runes appear to be ancient symbols of guidance. Alcaz leans in closer, studying the runes intensely, and then nods with understanding. "These runes are directing us," he says. "They point to the east, my lord. It seems that's the way we should proceed."
+<<elseif $marker1>>
+You consider looking at the runes once more, but you decide against it. Trust on your <<march instincts>>.
+<<else>>
+<<set $h.push('regard-marker1'), $marker1 = 1>>
+You lean in closer, studying the runes intensely. It is almost as if the runes are speaking directly to you; you hear whispering voices, encouraging you to listen to them, to hear their stories, to learn what they have seen and heard.
+<br><br> 
+"My lord!" Lydia says urgently and pulls you away. You realize you were gripping the marker with both hands, afraid to let go and lose the soothing sound of the voices.
+<br><br>
+"I do not like these runes. They feel ... tainted. I think it's best to ignore them for now and rely on your <<march instincts>> to guide us through this darkness."
+<</if>>
+<</widget>>
+
+<<widget march-order1>>
+<<if $undo>>
+<<set $room = 'order1'>>
+You retrace your steps with a determined air, retreating back to the path of order.
+<<elseif _args[0] == 'north'>>
+Turn your gaze ahead, for there's no honor in retracing your steps.
+<<elseif _args[0] == 'east' or _args[0] == 'instincts'>>
+<<set $h.push('march-order1', 2), $room = 'order2'>>
+<<if !$alcaz>>
+You proceed to march eastward, following <<if $marker1>>the marked path as indicated by the runes on the marker<<else>>your instincts<</if>>. The pitted black stone pathway seems to stretch endlessly into the darkness, but you remain resolute in your advance.
+<br><br>
+As you arrive on the next island, Alcaz's staff casts a dim glow over a new marker, carved from the same mysterious material as the previous one. The runic script is intricate and enigmatic, another puzzle begging to be solved.
+<<else>>
+You proceed to march eastward, following your instincts. The pitted black stone pathway seems to stretch endlessly into the darkness, but you remain resolute in your advance.
+<br><br>
+As you arrive on the next island, Lydia's necklace casts a dim glow over a new marker, carved from the same mysterious material as the previous one. The runic script is intricate and enigmatic, another puzzle begging to be solved.
+<br><br>
+"My lord," Lydia cautions, "stay resolute. Pay no heed to the runes, rely on your instincts!"
+<</if>>
+<<elseif !$alcaz and $marker1>>
+As you attempt to march to the _args[0], away from the marker, you feel an unsettling shift beneath your feet. "My lord," Alcaz says urgently, "stay on the path. The darkness here is treacherous, and straying from the marked path could be perilous. Let us continue in the direction the runes have shown us." 
+<<elseif !$alcaz>>
+"My lord," Alcaz says, "we should decipher the runes on this marker. Straying blindly might lead us into even deeper peril." 
+<<else>>
+As you attempt to march to the _args[0], away from the marker, you feel an unsettling shift beneath your feet. "My lord," Lydia says urgently, "darkness emanates from that direction. Please come back to the island and reconsider."
+<</if>>
+<</widget>>
+
+/* order2 : Path of Order */
+
+<<widget order2>>
+<h2>Path of Order</h2><<set $rooms |= 1<<7>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin, with paths leading to the <<march north>>, <<march northeast>>, <<march east>>, <<march southeast>>, <<march south>>, <<march southwest>>, <<march west>>, and <<march northwest>>.
+<br><br> 
+An ancient weathered <<regard marker2 marker>> dominates the island. Its monolithic surface is etched with intricate runic script, pulsing with an otherworldly energy<<if $marker2>>, directing you to march <<march south>><</if>>.
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the runic script on the marker.
+<<else>>
+<<regard Lydia>> is trying hard not to look at the runic script on the marker.
+<</if>>
+<</widget>>
+
+<<widget regard-marker2>>
+<<if $undo>>
+<<set $marker2 = 0>>
+Your memory of reading the marker runes fades, and you no longer remember the direction they indicated.
+<<elseif !$alcaz and $marker2>>
+As you gaze once more upon the monolithic marker, the message remains the same, reaffirming its guidance to the south.
+<<elseif !$alcaz>>
+<<set $h.push('regard-marker2'), $marker2 = 1>>
+With Alcaz's guidance, you discern the message within the runic script. The ancient symbols of guidance point to the south, indicating the path you should follow next. Alcaz nods in confirmation. "To the south, my lord. Let us proceed in that direction."
+<<else>>
+You briefly contemplate regarding the runes, but your better judgment prevails, and you shake off the urge.
+<</if>>
+<</widget>>
+
+<<widget march-order2>>
+<<if $undo>>
+<<set $room = 'order2'>>
+You retrace your steps with a determined air, retreating back to the path of order.
+<<elseif _args[0] == 'west'>>
+Turn your gaze ahead, for there's no honor in retracing your steps.
+<<elseif _args[0] == 'south'>>
+<<set $h.push('march-order2', 9), $room = 'order3'>>
+<<if !$alcaz>>
+With Alcaz leading the way, his staff's glow guiding your path through the dark, you make your way southward to the next island. The path beneath your feet appears to be fashioned from the same pitted black stone.
+<br><br>
+At the center of the island stands another marker, carved from the same mysterious material as the previous one. The marker's surface bears a new set of runes<<if $marker2>>, some of which seem familiar<</if>>.
+<<else>>
+Following your instincts, you make your way southward to the next island. The path beneath your feet appears to be fashioned from the same pitted black stone.
+<br><br>
+At the center of the island stands another marker, carved from the same mysterious material as the previous one.
+<</if>>
+<<elseif !$alcaz and $marker2>>
+As you attempt to march to the _args[0], away from the marker, you feel an unsettling shift beneath your feet. "My lord," Alcaz says urgently, "stay on the path. The darkness here is treacherous, and straying from the marked path could be perilous. Let us continue in the direction the runes have shown us." 
+<<elseif !$alcaz>>
+"My lord," Alcaz says, "we should decipher the runes on this marker. Straying blindly might lead us into even deeper peril." 
+<<else>>
+As you attempt to march to the _args[0], away from the marker, you feel an unsettling shift beneath your feet. "My lord," Lydia says urgently, "darkness emanates from that direction. Please come back to the island and reconsider." 
+<</if>>
+<</widget>>
+
+/* order3 : Path of Order */
+
+<<widget order3>>
+<h2>Path of Order</h2><<set $rooms |= 1<<8>>
+The island, suspended in an endless void of darkness, is made of pitted black stone, possibly of volcanic origin, with paths leading to the <<march north>>, <<march northeast>>, <<march east>>, <<march southeast>>, <<march south>>, <<march southwest>>, <<march west>>, and <<march northwest>>.
+<br><br> 
+An ancient weathered <<regard marker3 marker>> dominates the island. Its monolithic surface is etched with intricate runic script, pulsing with an otherworldly energy<<if $marker3>>, directing you to march <<if $marker3 == 1>><<march south>><<else>><<march southwest>><</if>><</if>>.
+<br><br>
+<<if !$alcaz>>
+<<regard Alcaz>> is studying the runic script on the marker.
+<<else>>
+<<regard Lydia>> is trying hard not to look at the runic script on the marker.
+<</if>>
+<</widget>>
+
+<<widget regard-marker3>>
+<<if $undo and $marker3 == 2>>
+<<set $marker3 = 1>>
+Your memory of reading the additional runes fades, and now you only remember the marker indicating south.
+<<elseif $undo>>
+<<set $marker3 = 0>>
+Your memory of reading the marker runes fades, and you no longer remember the direction they indicated.
+<<elseif !$alcaz and $marker3 == 2>>
+As you gaze once more upon the monolithic marker, the message remains the same, reaffirming its guidance to the southwest.
+<<elseif !$alcaz and $marker3 == 1>>
+<<set $h.push('regard-marker3'), $marker3 = 2>>
+You regard the runic script again and notice another rune following the ones indicating south. This rune is unfamiliar, and you guess it must indicate west, as you haven't seen it earlier. Alcaz, with an approving nod, concurs. "You are absolutely correct, my lord. Southwest it is, following the path laid out by these runes."
+<br><br>
+Alcaz chuckles. "It seems even the mighty gods have their limitations, my lord. Did you notice that all their words on the markers are composed of nine runes or fewer?"
+<<elseif !$alcaz>>
+<<set $h.push('regard-marker3'), $marker3 = 1>>
+You regard the runic script. You almost immediately recognize the runes indicating south and conclude this must be the way forward. Alcaz seems to be preoccupied with reading other parts of the runic script and does not confirm your conclusion.
+<<else>>
+You briefly contemplate regarding the runes, but your better judgment prevails, and you shake off the urge.
+<</if>>
+<</widget>>
+
+<<widget march-order3>>
+<<if $undo>>
+<<set $room = 'order3'>>
+You retrace your steps, heading to the northeast, and the path reappears beneath your feet as you progress.
+<<elseif _args[0] == 'north'>>
+Turn your gaze ahead, for there's no honor in retracing your steps.
+<<elseif _args[0] == 'southwest'>>
+<<set $h.push('march-order3', 8), $room = 'chaos1'>>
+<<if !$alcaz>>
+With cautious steps, you and Alcaz traverse the path leading to the next island. As you reach its shore, a tremor runs through the isle. The paths behind, stretching to the northeast, and the one directly ahead, leading southwest, disintegrate before your very eyes. The pitted black stone crumbles into darkness, leaving an impassable abyss in its wake.
+<<else>>
+With cautious steps, you and Lydia traverse the path leading to the next island. As you reach its shore, a tremor runs through the isle. The paths behind, stretching to the northeast, and the one directly ahead, leading southwest, disintegrate before your very eyes. The pitted black stone crumbles into darkness, leaving an impassable abyss in its wake.
+<br><br>
+"My lord," Lydia exclaims, "the path... it's gone!"
+<</if>>
+<<elseif !$alcaz and $marker3 == 2>>
+As you attempt to march to the _args[0], away from the marker, you feel an unsettling shift beneath your feet. "My lord," Alcaz says urgently, "stay on the path. The darkness here is treacherous, and straying from the marked path could be perilous. Let us continue in the direction the runes have shown us."
+<<elseif !$alcaz and $marker3 == 1>>
+"My lord!" Alcaz calls out, "wait! I believe you may have only partially deciphered the runes. Please, regard the marker once more, and let us be certain of the path we must take."
+<<elseif !$alcaz>>
+"My lord," Alcaz says, "we should decipher the runes on this marker. Straying blindly might lead us into even deeper peril."
+<<else>>
+As you attempt to march to the _args[0], away from the marker, you feel an unsettling shift beneath your feet. "My lord," Lydia says urgently, "darkness emanates from that direction. Please come back to the island and reconsider."
+<</if>>
+<</widget>>
+
+<</nobr>>
+
+
+:: Palace [widget] {"position":"900,100","size":"100,100"}
+<<nobr>>
+
+/* bedroom : Royal Bedroom */
+
+<<widget bedroom>>
+<h2>Royal Bedroom</h2><<set $rooms |= 1<<0>>
+The grandeur of your bedroom exudes an air of opulence and power, providing a space befitting a monarch. An ornate archway leads <<if $lydia>><<march west>><<else>>west<</if>> to the dining room.
+<br><br>
+Your <<regard bed>><<if $loincloth>>'s sheets and blankets have been further disrupted by your search. The mattress bears the impressions of your knees and hands as you rummaged through the bed in search of your loincloth.<<else>> shows the signs of your hasty departure, with the sheets thrown aside, revealing a chaotic tangle of blankets and pillows. The mattress retains the imprints of your form, a reminder of the restless slumber you've just emerged from.<</if>>
+<br><br>
+A full-length <<regard mirror>> is attached to the wall, boasting generous dimensions.<<if $mirror and $lydia>> It reflects the image of your mighty form, proudly displaying your primal strength.<</if>>
+<<if !$lydia>>
+<br><br>
+<<regard Lydia>> is <<treat looking>> at you.
+<</if>>
+<</widget>>
+
+<<widget treat-looking>>
+<<set $done = 1, $conan = -1>>
+<<goto Epilogue>>
+<</widget>>
+
+<<widget regard-bed>>
+<<if !$lydia>>
+You definitely could use some rest and recuperation right now.
+<<elseif $loincloth>>
+You have reclaimed your loincloth from your bed; there are no more treasures to be found in there.
+<<else>>
+You get the feeling that you forgot something when you left your bed in a rush. Maybe you should <<loot bed check>> if you left anything in it?
+<</if>>
+<</widget>>
+
+<<widget regard-mirror>>
+<<if $undo>><<set $mirror = 0>>
+The mirror's reflection shifts, and the image of your mighty form, proudly displaying your primal strength, fades like a wisp of smoke from the mirror.
+<<elseif !$lydia>>
+You see your mighty muscles, honed by countless battles and a life of adventure, ripple beneath your sun-tanned skin like living armor.
+<<elseif $mirror>>
+You've taken a good look at yourself in that mirror. There are battles to be fought, and you won't waste any more time admiring your reflection.
+<<elseif $loincloth>>
+<<set $h.push('regard-mirror'), $mirror = 1>>
+You gaze into your mirror. You see your mighty muscles, honed by countless battles and a life of adventure, ripple beneath your sun-tanned skin like living armor. Your loincloth hangs low on your hips, a symbol of your primal essence, a silent reminder of your untamed nature.
+<<else>>
+You are no exhibitionist, seeking to catch a glimpse of yourself in all your glory.
+<</if>>
+<</widget>>
+
+<<widget loot-bed>>
+<<if $undo>><<set $loincloth = 0>>
+You take off your loincloth and put it under the tangle of blankets, hiding your treasure once more.
+<<else>><<set $h.push('loot-bed'), $loincloth = 1, $loots |= 1<<0>>
+You approach your bed and reach down with strong, calloused hands, fingers deftly sifting through the fabric. You pull your loincloth free from its concealed spot, and you deftly don it.
+<</if>>
+<</widget>>
+
+<<widget march-bedroom>>
+<<if $undo>><<set $room = 'bedroom'>>
+You retrace your steps with a determined air, retreating back to the royal bedroom.
+<<elseif $loincloth>>
+<<set $h.push('march-bedroom', 7), $room = 'diningroom'>>
+You stride purposefully from the royal bedroom, your powerful legs carrying you with a determined pace as you head west toward the dining room.
+<<else>>
+You are no exhibitionist, seeking to expose yourself to the world in all your glory.<</if>>
+<</widget>>
+
+/* diningroom : Dining Room */
+
+<<widget diningroom>>
+<h2>Dining Room</h2><<set $rooms |= 1<<1>>
+A spacious dining room, fit for a ruler, awaits you. Ornate archways lead east to your bedroom and <<march west>> to the throne room.
+<br><br>
+A grand <<regard table 'dining table'>> stands at the center of the room, bearing the glorious remnants of last night's feast.<<if $bottle>> The space where the bottle of wine once sat is now empty, a reminder of your successful acquisition.<</if>>Empty goblets and wine-stained dishes remain scattered across the table.
+<</widget>>
+
+<<widget regard-table>>
+<<if $bottle>>
+There are no more spoils to be had from this table, you have already claimed its prize.
+<<else>>
+You wonder whether there might be anything left to <<loot table pilfer>> from the table.
+<</if>>
+<</widget>>
+
+<<widget loot-table>>
+<<if $undo>><<set $bottle = 0>>
+You carefully place the bottle of wine back onto the dining table.
+<<else>><<set $h.push('loot-table'), $bottle = 1, $loots |= 1<<1>>
+Amidst the remnants, your keen eyes spot a bottle of wine. With a careful hand, you retrieve the bottle.
+<</if>>
+<</widget>>
+
+<<widget march-diningroom>>
+<<if $undo>><<set $room = 'diningroom', $monster = '', $door = 0>>
+The portal begins to waver and distort. Its ethereal energies twist, and a void appears at its center. With a surge of force, the demon is pulled back through the portal, its form becoming indistinct. The demon's clawed fingers vanish into the portal's depths, followed by its wings, and finally its burning eyes.
+<br><br>
+The portal's edges become increasingly transparent as if being erased from reality. Gradually, the portal recedes until it is but a memory. 
+<br><br>
+You retrace your steps with a determined air, retreating back to the dining room.
+<<elseif $bottle>>
+<<set $h.push('march-diningroom', 7), $room = 'throneroom', $monster = 'demon', $door = 1>>
+You stride purposefully from the dining room, your powerful legs carrying you with a determined pace as you head west toward the throne room.
+<br><br>
+A shimmering rift materializes near the western wall of the throne room. Its edges flicker with an eerie light, and the air around it seems to waver as if touched by unseen forces. 
+<br><br>
+A clawed hand reaches through the portal, its fingers clutching the edge of the portal as it pulls itself forward. With a powerful surge, a demon steps forth, framed by the portal's twisting energies. The demon unfurls its wings, the leathery membranes stretching out to span an imposing width. Its eyes, burning like molten coals, fixate on you with malevolent intent.
+<<else>>
+You wonder whether there might be anything left to <<loot table pilfer>> from the table.
+<</if>>
+<</widget>>
+
+/* throneroom : Throne Room */
+
+<<widget throneroom>>
+<h2>Throne Room</h2><<set $rooms |= 1<<2>>
+The throne room stretches before you, a space of regal grandeur. Ornate archways lead east to the dining room and south to the petition hall.<<if $door>> Near the west wall, a <<march 'magical portal'>> shimmers with eerie energy.<</if>>
+<br><br>
+Dominating the room's north side, the <<regard throne 'dragon throne'>> commands attention. The west wall is decorated with a large number of <<regard trophies 'battle trophies'>>.
+<<throneroom-demon>>
+<<throneroom-alcaz>>
+<<throneroom-lydia>>
+<</widget>>
+
+<<widget throneroom-demon>>
+<br><br>
+<<if $monster>>
+<<switch $hits>>
+<<case 0>>
+The <<smite demon>>'s sinewy muscles ripple with power, each movement a testament to its formidable strength. From its back, jagged wings, tattered and torn, stretch out. At the ends of its elongated fingers, claws gleam like razors, while its bared teeth form a ghastly grin mirroring its insatiable hunger for chaos.
+<<case 1>>
+<<if $sword == 1>>
+The imposing presence of the <<smite demon>> is now visibly diminished. Dark blood oozes from a deep gash on its demonic flesh. Despite the wound, the demon's red eyes still blaze with a ferocious hunger for battle.
+<<else>>
+The <<smite demon>>'s monstrous features are contorted with a mixture of rage and pain. The demon's movements are noticeably slower, its once-confident aura diminished.
+<</if>>
+<<default>>
+The <<smite demon>> is visibly battered and weakened. Its hide is marred with deep gashes and oozing wounds, the stench of its blood mingling with the scent of burnt flesh.
+<</switch>>
+<<else>>
+A <<regard stain 'broad dark stain'>> lies on the floor where the demon died.
+<</if>>
+<</widget>>
+
+<<widget throneroom-alcaz>>
+<<if ! $alcaz>>
+<br><br><<regard Alcaz>> is <<if $door>>ready to step through the portal he just created<<elseif $present>>holding out his hand to you, expecting you to present something to him<<else>>studying the <<treat stain 'broad dark stain'>> on the floor<</if>>.
+<</if>>
+<</widget>>
+
+<<widget throneroom-lydia>>
+<<if ! $lydia>>
+<br><br><<regard Lydia>> looks horrified at the <<if $monster>>demon<<else>>broad dark stain on the floor<</if>>.
+<</if>>
+<</widget>>
+
+<<widget regard-throne>>
+You can't help but feel a surge of pride and power when regarding your dragon throne.
+<<if ! $sword>>
+<br><br>
+On the throne, a gleaming sword rests, confirming your authority as the rightful ruler of the realm.<<if $axe != 1>> It looks like a suitable weapon to <<seize sword arm>> yourself with.<</if>>
+<</if>>
+<</widget>>
+
+<<widget regard-trophies>>
+You can't help but feel a surge of pride and power when regarding your battle trophies.
+<<if ! $axe>>
+<br><br>
+A double-bladed axe, a relic of a battle fought long ago, is one of your favorites.<<if $sword != 1>> It looks like a suitable weapon to <<seize axe arm>> yourself with.<</if>>
+<</if>>
+<</widget>>
+
+<<widget regard-stain>>
+The demon has left its outline clearly etched in its blood, an outline belonging to no being in a sane and normal world.
+<</widget>>
+
+<<widget seize-sword>>
+<<if $undo>>
+<<set $sword = 0>>
+<<if $monster>>
+You carefully place your sword back on the throne, and retrace your steps to the east side of the throne room.
+<<else>>
+You carefully place your sword back on the throne.
+<</if>><<else>>
+<<set $h.push('seize-sword'), $sword = 1, $loots |= 1<<2>>
+<<if $monster>>
+You make a run for your sword on the throne. Grasping the hilt firmly, you feel its power surge through your veins, a familiar weight in your hand. Just as you secure the sword, the demon, sensing your threat, closes the distance in a frenzied assault.
+<br><br> 
+The demon jumps at you, claws outstretched, a whirlwind of malevolent fury. You react quickly, holding your sword to parry the attack. You manage to deflect the demon's strike, narrowly avoiding its vicious claws.
+<<else>>
+With the broken axe handle in hand, you decide to seize your sword, hoping it will serve as a suitable replacement for your shattered axe.
+<</if>><</if>>
+<</widget>>
+
+<<widget seize-axe>>
+<<if $undo>>
+<<set $axe = 0>>
+<<if $monster>>
+You carefully hang the battle axe back on the western wall, and circle back around the demon to the east side of the throne room.
+<<else>>
+<<set $alcaz = -1, $door = 1>>
+Alcaz, your court mage, dematerializes from the throne room, his robe fading as he disappears from the scene.
+<br><br> 
+A shimmering rift materializes near the western wall of the throne room. Its edges flicker with an eerie light, and the air around it seems to waver as if touched by unseen forces. 
+<br><br> 
+You carefully hang the battle axe back on the western wall.
+<</if>><<else>>
+<<set $h.push('seize-axe'), $axe = 1, $loots |= 1<<3>>
+<<if $monster>>
+You swiftly move around the perimeter of the throne room. Your gaze remains locked on the demon, who is watching your every move with burning eyes. As you seize the double-bladed battle axe, the demon, sensing your threat, closes the distance in a frenzied assault.
+<br><br> 
+The demon jumps at you, claws outstretched, a whirlwind of malevolent fury. You react quickly, holding your axe to parry the attack. You manage to deflect the demon's strike, narrowly avoiding its vicious claws.
+<<else>>
+<<set $alcaz = 0, $door = 0>>
+You seize the double-bladed battle axe hanging on the west side of the throne room, feeling the weight of its power in your hands. This will serve as your new weapon, a suitable replacement for the sword you lost.
+<br><br> 
+The portal's edges become increasingly transparent as if being erased from reality. Gradually, the portal recedes until it is but a memory. 
+<br><br>
+Alcaz, your court mage, materializes in the throne room, his robe swirling as he surveys the scene. He takes in the remnants of the battle, the lingering aura of magic, and the bloodstained floor. With a concerned expression, he approaches you. "What happened here, my lord?"
+<</if>><</if>>
+<</widget>>
+
+<<widget smite-demon>>
+<<if $undo and !$axe>>
+<<set $sword = 1, $monster = 'demon'>>
+The air becomes charged with energy, and a dark mist envelops the area where the outline lingers. Gradually, the demon fully reforms from the bloodstain, its dark form standing once again in the throne room. Your sword emerges whole from the demon's body.
+<br><br>
+Lydia emerges from the demon's gaping maw, her body covered in a dark slime. Her dress is stained and tattered, but she is alive and seemingly unharmed.
+<br><br>
+Lydia scrambles to her feet, and as she makes her escape from the throne room, the dark slime disappears from her body, and her dress repairs and cleans itself.
+<<elseif $undo>>
+<<set $axe = 1, $monster = 'demon', $lydia = -1>>
+The air becomes charged with energy, and a dark mist envelops the area where the outline lingers. Gradually, the demon fully reforms from the bloodstain, its dark form standing once again in the throne room. Your axe emerges whole from the demon's body.
+<br><br>
+Lydia makes her escape from the throne room, the horror radiating from the demon overwhelming her.
+<<elseif $sword>>
+<<switch $hits>>
+<<case 0>>
+<<set $hits = 1, $lydia = 0>>
+With a primal roar, you launch an assault on the demon. Your muscles ripple with power as you unleash a mighty blow aimed at the heart of the creature. The demon attempts to parry your strike, but the force behind your attack overwhelms its defenses. Your sword slices into the demon's flesh, leaving a deep gash across its dark form.
+<br><br>
+As your sword connects, Lydia, your court priestess, enters the throne room. At the sight of the demon, she lets out a shriek of horror. The demon, drawn by her vulnerability, starts moving menacingly toward Lydia, eyes gleaming with evil intent.
+<<case 1>>
+<<set $hits = 2, $lydia = -1>>
+You lunge at the demon once more, the sword an extension of your primal fury. But the demon barely flinches as your sword slices through its dark essence.
+<br><br> 
+With a horrifying speed, the demon lunges toward your court priestess, a dark whirlwind of hunger. In an instant, it engulfs Lydia. The demon's shadowy form seems to expand, savoring its victory, leaving you with the weight of loss and the thirst for vengeance burning within you.
+<<default>>
+<<set $h.push('smite-demon'), $hits = 0, $monster = '', $sword = 2, $kills |= 1<<0>>
+The demon sparks in you a frenzied rage. You reverse your sword grip, clench it tightly, and strike with all your might. Thrusting your sword like a dagger, you drive it deep into the horror, breaking it off at the hilt. The damage is done, and the loathsome creature convulses in agony. You are hurled away, and as you rise on one hand, you see the struggles of the demon cease. The thing disintegrates into a slimy mass, until it dissolves completely, leaving only an outline in blood on the floor.
+<br><br> 
+The portal, through which the demon originally emerged, shows signs of fading, its once vibrant energy now waning, as if nature itself seeks to close the rift between worlds. 
+<</switch>>
+<<elseif $axe and $hits>>
+<<set $h.push('smite-demon'), $hits = 0, $monster = '', $axe = 2, $kills |= 1<<0>>
+You swing the double-bladed battle axe once more, directing the full force of your fury and skill at the demon. The axe strikes with a resounding impact and shatters, a deadly blow cleaving through the demon's form. The vile creature convulses, before dissolving completely, leaving only an outline in blood on the floor.
+<<elseif $axe>>
+<<set $hits = 1, $lydia = 0>>
+With a primal roar, you swing the double-bladed battle axe with all your might. The weapon cleaves through the air and collides with the demon. You feel the impact through your arms as the axe bites deep into the demon's hide, carving a deep gash.
+<br><br> 
+As your axe connects, Lydia, your court priestess, enters the throne room. At the sight of the demon, she lets out a shriek of horror. The demon, drawn by her vulnerability, starts moving menacingly toward Lydia, eyes gleaming with evil intent.
+<<else>>
+You have no weapon to smite the demon with.
+<</if>>
+<</widget>>
+
+<<widget treat-stain>>
+<<if $undo>>
+<<set $present = ''>>
+The words you exchanged with Alcaz dissolve, and memories fade. Alcaz no longer knows what happened in the throne room.
+<<else>>
+<<set $h.push('treat-stain'), $present = 'sword2'>>
+You explain the fierce battle with the demon, the tragic loss of Lydia, and the ultimate victory leading to the demon's demise. After you finish recounting the events, he nods solemnly.
+<br><br>
+"Thank you for sharing this with me, my lord," Alcaz says. "I believe there might be a way to re-create the portal, to delve into the mysteries behind this threat. Please entrust me with the weapon you used to defeat the demon."
+<</if>>
+<</widget>>
+
+<<widget present-sword2>>
+<<if $undo>>
+<<set $sword = 2, $present = 'sword2', $door = 0>>
+The portal's edges become increasingly transparent as if being erased from reality. Gradually, the portal recedes until it is but a memory. 
+<br><br>
+Your sword hilt re-materializes in the hands of Alcaz, and he subsequently returns it to you.
+<<else>>
+<<switch _args[0]>>
+<<case 'you'>>
+You present youself to Alcaz. "While I appreciate your openness, I believe there are matters of greater importance at hand," he says. "Let us focus on the task before us."
+<<case 'your loincloth'>>
+You present your loincloth to Alcaz. His gaze shifts from your face to your loincloth. "I don't think your loincloth holds any magical secrets," he says.
+<<case 'a bottle of wine'>>
+You present the bottle of wine to Alcaz. His gaze shifts from your face to the bottle of wine. "I don't think the bottle of wine holds any magical secrets," he says.
+<<case 'a sword hilt'>>
+<<set $h.push('present-sword2'), $sword = -1, $present = '', $door = 1>>
+You hand the hilt of your broken sword to Alcaz. He holds it carefully as he begins to focus his magical powers. You watch intensely as he starts to chant ancient incantations, combining the essence of the demon's blood on the floor with the remnants of the sword.
+<br><br>
+You see the traces of the demon's blood on the floor glow in response to Alcaz's magic, and a soft, ethereal glow surrounds the hilt until it fades into the ethereal plane.
+<br><br>
+A shimmering rift materializes near the western wall of the throne room. Its edges flicker with an eerie light, and the air around it seems to waver as if touched by unseen forces.
+<<case 'your axe'>>
+You present your axe to Alcaz. "Ah, the battle-hardened instrument of a warrior," he says. "Keep it close, for it is a part of you."
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget march-throneroom>>
+<<if $undo>><<set $room = 'throneroom', $door = 1>>
+A shimmering radiance materializes to the east, its surface veiled in a shroud of mist. The air crackles with energy as the portal emerges, its edges dancing with hues of eerie light. 
+<br><br>
+With <<if $alcaz>>Lydia<<else>>Alcaz<</if>> leading the way, you step confidently through the swirling portal, feeling its energies wrap around you.
+<<elseif $monster>>
+To march away in the demon's presence would be an affront to your honor.
+<<elseif $sword != 1 and $axe != 1>>
+Venturing into the unknown must wait until you have armed yourself. 
+<<else>>
+<<set $h.push('march-throneroom', 7), $room = 'northbank', $door = 0>>
+You step confidently through the swirling portal, feeling its energies wrap around you. <<if $alcaz>>Just as you pass the threshold, a warm embrace envelops you from behind, and you realize that Lydia has followed you through.<br><br>"I feel that staying with you is safer than remaining in the royal palace, my lord," Lydia says. "I shall stand by your side, ready to face whatever challenges lie ahead."<<else>>Alcaz follows closely, his presence providing a sense of security in this unfamiliar realm.<</if>>
+<br><br> 
+The magical portal that stood to the east gradually fades from existence. Its vibrant hues of eerie light begin to wane, like the dying embers of a fire. 
+<</if>>
+<</widget>>
+
+<</nobr>>
+
+
+:: Prologue {"position":"500,100","size":"100,100"}
+<h2>Prologue</h2>In the old free days, all you needed was a sharp sword and a straight path to your enemies. Overthrowing the old dynasty was easy enough, but you quickly learned that as a King, no path was straight, and your sword was useless. Now, an old enemy has sent you this abomination through a magical portal, and you face death. You feel alive once more.
+ 
+The demon sparks in you a frenzied rage. You reverse your sword grip, clench it tightly, and strike with all your might. Thrusting your sword like a dagger, you drive it deep into the horror, breaking it off at the hilt. The damage is done, and the loathsome creature convulses in agony. You are hurled away, and as you rise on one hand, you see the struggles of the demon cease. The thing disintegrates into a slimy mass, until it dissolves completely, leaving only an outline in blood on the floor.
+ 
+You hear your blood sing in your ears, and you crave vengeance. Vengeance upon the dark sorcerer who sent this creature into the very heart of your kingdom. Vengeance upon the filth whose creature killed your priestess, Lydia. It is time to take the fight to him. You are the Barbarian. You are the King. You are...
+
+''One King to Loot them All''
+A Tale of High Adventure
+
+<<button "Next" "Room">><<set $conan = 0>><</button>><<done>><<run $("#passages").addClass("no-t8n")>><</done>>
+
+
+:: River [widget] {"position":"900,300","size":"100,100"}
+<<nobr>>
+
+/* northbank : North Bank */
+
+<<widget northbank>>
+<h2>North Bank</h2><<set $rooms |= 1<<3>>
+A dark and foreboding river, its waters shrouded in dense, swirling mist, winds its way slowly through the landscape. The <<regard moon>> is full, casting a pale glow upon the scene. The mist glides across the river like a snake through desert sands.
+<br><br>
+A <<regard meadow>> stretches out to the horizon. To the south, a small landing extends into the mist-covered river. A copper <<regard bell>> hangs next to the landing, its metal gleaming faintly in the moonlight. A <<if $ring>>once sturdy-looking <<regard chest>> lies broken and splintered<<else>>sturdy-looking <<regard chest>> rests<</if>> under the bell.
+<<if $door>>
+<br><br>
+The <<march boat>>, moored to the landing, rests like a shadow upon the dark waters. Its <<regard ferryman occupant>>, shrouded in a dark cloak, is awaiting its passenger.
+<</if>>
+<<if !$alcaz>>
+<br><br>
+<<regard Alcaz>> is studying the swirling mist above the <<if $treat>>dark river<<else>><<treat ritual 'dark river'>><</if>>.
+<</if>>
+<<if !$lydia>>
+<br><br>
+<<regard Lydia>> is gazing intensely at the mist above the <<if $treat>>dark river<<else>><<treat ritual 'dark river'>><</if>>.
+<</if>>
+<</widget>>
+
+<<widget regard-moon>>
+The full moon hangs in the night <<regard sky>>, casting a silvery glow over the land.
+<</widget>>
+
+<<widget regard-sky>>
+The night sky is vast and filled with countless <<regard stars>>.
+<</widget>>
+
+<<widget regard-stars>>
+The stars <<seize twinkle>> in the dark expanse of the night <<regard sky>>.
+<</widget>>
+
+<<widget seize-twinkle>>
+<<if $mode != 0>>
+Across the mists of time, these words come to you: "The veil of causality has already been torn."
+<<else>>
+<<set $mode = 1, $secs = 1>>
+You feel your eardrums pop as the pressure in the air changes. Across the mists of time, these words come to you: "The veil of causality has been torn. Now go and fulfill your destiny!"
+<</if>>
+<</widget>>
+
+<<widget regard-meadow>>
+A few goats roam freely, indulging in the lush vegetation; one of them might serve as a suitable <<seize goat sacrifice>> to appease the gods.
+<</widget>>
+
+<<widget regard-bell>>
+<<if $door>>
+The copper bell is ringing with a deep, resonating chime.
+<<else>>
+The copper bell is <<smite bell silent>>.
+<</if>>
+<</widget>>
+
+<<widget regard-ferryman>>
+<<if $room == 'northbank'>>
+The ferryman, shrouded in a dark cloak, is awaiting his passenger.
+<<elseif $room == 'darkriver'>>
+Clad in a black cloak, the ferryman himself remains concealed, his identity veiled in shadows.<<if $door and $necklace>> Now might be a good time to <<loot ferryman retrieve>> Lydia's necklace.<</if>>
+<<else>>
+The ferryman, shrouded in a dark cloak, appears to be waiting for something.
+<</if>>
+<</widget>>
+
+<<widget regard-chest>>
+<<if $ring>>
+The once sturdy-looking chest lies broken and splintered.
+<<else>>
+The sturdy-looking chest is <<loot chest closed>>. Maybe something valuable is stored in there?
+<</if>>
+<</widget>>
+
+<<widget loot-chest>>
+You try to pry open the sturdy-looking chest but it seems to be securely locked. You will need a more <<smite chest forceful>> approach.
+<</widget>>
+
+<<widget treat-ritual>>
+<<if $undo>>
+<<set $treat = 0>>
+<<if !$alcaz>>
+The words you exchanged with Alcaz dissolve, and memories fade. You no longer remember the ancient ritual of crossing the dark river.
+<<else>>
+The words you exchanged with Lydia dissolve, and memories fade. You no longer remember the ancient ritual of crossing the dark river.
+<</if>>
+<<else>>
+<<set $h.push('treat-ritual'), $treat = 1>>
+<<if !$alcaz>>
+"The river you see before us appears to be more than it seems," Alcaz says. "It is the boundary of the sorcerer's domain, and you need to follow an ancient ritual to cross it."
+<br><br>
+"This looks like it was taken straight out of the legend of the Eternal Crossing," you say. "Offer the gold, ring the bell, and prepare a sacrifice, lest the ferryman holds you to stay with him until the end of times."
+<br><br>
+"Not very original, I grant you that," Alcaz says with a smile. "We need to arrange payment for the ferryman, sound the bell to call upon him, and prepare a sacrifice to appease the gods."
+<<else>>
+"This looks like it was taken straight out of the legend of the Eternal Crossing," you say. "Offer the gold, ring the bell, and prepare a sacrifice to appease the gods, lest the ferryman holds you to stay with him until the end of times."
+<br><br>
+"Yes, it does look like it, doesn't it?" Lydia says with a smile.
+<</if>>
+<</if>>
+<</widget>>
+
+<<widget smite-chest>>
+<<if $undo>>
+<<set $ring = 0>>
+You drop the gold ring into the chest, which repairs itself and becomes whole again.
+<<elseif $alcaz>>
+You swing your sword at the chest with all your might, but it is clear that your sword is not the tool for this task.
+<<elseif $treat>>
+<<set $h.push('smite-chest'), $ring = 1, $loots |= 1<<4>>
+With a determined grip on your axe, you swing it forcefully at the chest before you. The blade strikes the chest, causing it to splinter and crack under the force of your blow, revealing a gold ring within. You claim the ring as your own.
+<<else>>
+You raise your axe, preparing to smite the chest. Alcaz places a hand on your arm, halting your action. "Hold, warrior," he says firmly. "Let us first discuss our course of action before we start smiting things."
+<</if>>
+<</widget>>
+
+<<widget treat-necklace>>
+<<if $undo>>
+<<set $necklace = 0>>
+You return the necklace to Lydia, promptly forgetting why you borrowed it in the first place.
+<<else>>
+<<set $h.push('treat-necklace'), $necklace = 1>>
+"I see no gold here," you say. "Would it be possible for me to borrow your gold necklace for a while? I promise I will return it to you after we cross the river."
+<br><br>
+Lydia hands you her gold necklace of Mitora.
+<</if>>
+<</widget>>
+
+<<widget seize-goat>>
+<<if $undo>>
+<<set $goat = 0>>
+You release the goat. You are no shepherd, and you have no need for a goat.
+<<elseif $goat>>
+You already possess a goat.
+<<elseif !$alcaz and $treat>>
+<<set $h.push('seize-goat'), $goat = 1>>
+You swiftly close in on one of the goats grazing in the meadow. Summoning your primal strength, you seize the goat and lift it up from the ground.
+<<elseif !$alcaz>>
+You prepare to seize a goat. Alcaz places a hand on your arm, halting your action. "Hold, warrior," he says firmly. "Let us first discuss our course of action before we start seizing things."
+<<elseif $lydia>>
+You already have a sacrifice; you don't need another.
+<<elseif $treat>>
+Lydia places a hand on your arm, halting your action. "Are you a shepherd? Do you prefer bringing a goat instead of <<seize lydia me>>?" she says.
+<<else>>
+"My Lord," Lydia says, "what are you planning to do with that goat?"
+<br><br>
+You reconsider your options. Maybe you better talk to Lydia first.
+<</if>>
+<</widget>>
+
+<<widget seize-lydia>>
+<<if $undo>>
+<<set $lydia = 0>>
+You gently put Lydia on her feet again.
+<<else>>
+<<set $h.push('seize-lydia'), $lydia = 1>>
+Since the boat is too small to accommodate both you and Lydia sitting in it, you gently lift Lydia into your arms.
+<</if>>
+<</widget>>
+
+<<widget smite-bell>>
+<<if $undo>>
+<<set $door = 0>>
+The ferryman's boat slowly glides away from the shore, disappearing into the dense mist. The lantern's glow dims, casting an eerie light on the river before it, too, is swallowed by the mist.
+<br><br>
+You place a hand on the bell, silencing it.
+<<elseif !$alcaz and $treat>>
+You raise your axe, preparing to strike the bell. Alcaz places a hand on your arm, halting your action. "Hold, warrior," he says firmly. "Your axe would destroy the bell, not ring it. Please let me <<treat bell ring>> the bell."
+<<elseif !$alcaz>>
+You raise your axe, preparing to strike the bell. Alcaz places a hand on your arm, halting your action. "Hold, warrior," he says firmly. "Let us first discuss our course of action before we start smiting things."
+<<elseif $treat>>
+<<set $h.push('smite-bell'), $door = 1>>
+Stepping up to the bell, you carefully strike it with the hilt of your sword, producing a deep, resonating chime echoing through the landscape. The mist stirs as if responding to the call, swirling and eddying.
+<br><br>
+From the haze emerges a small boat, gliding toward the landing. The air seems to thicken as the boat nears, the mist clinging to the vessel like a protective shroud. The glimmer of a lantern at the prow illuminates the water's surface, casting an eerie glow dancing with the mist. Clad in a black cloak, the ferryman himself remains concealed, his identity veiled in shadows. Only his hands are visible, gnarled and weathered, their movements deftly guiding the boat toward the shore.
+<<else>>
+"My Lord," Lydia says, "what are you planning to do with that bell?"
+<br><br>
+You reconsider your options. Maybe you better talk to Lydia first.
+<</if>>
+<</widget>>
+
+<<widget treat-bell>>
+<<if $undo>>
+<<set $door = 0>>
+The ferryman's boat slowly glides away from the shore, disappearing into the dense mist. The lantern's glow dims, casting an eerie light on the river before it, too, is swallowed by the mist. 
+<br><br> 
+Alcaz places a hand on the bell, silencing it.
+<<else>>
+<<set $h.push('treat-bell'), $door = 1>>
+Alcaz strikes the bell, producing a deep, resonating chime echoing through the landscape. The mist stirs as if responding to the call, swirling and eddying.
+<br><br>
+From the haze emerges a small boat, gliding toward the landing. The air seems to thicken as the boat nears, the mist clinging to the vessel like a protective shroud. The glimmer of a lantern at the prow illuminates the water's surface, casting an eerie glow dancing with the mist. Clad in a black cloak, the ferryman himself remains concealed, his identity veiled in shadows. Only his hands are visible, gnarled and weathered, their movements deftly guiding the boat toward the shore.
+<</if>>
+<</widget>>
+
+<<widget march-northbank>>
+<<if $undo and $lydia == 1>>
+<<set $treat = 1, $door = 1, $present = '', $room = 'northbank'>>
+With Lydia secured in your powerful grasp, you step off the ferryman's boat.
+<<elseif $undo>>
+<<set $treat = 1, $door = 1, $present = '', $room = 'northbank', $alcaz = 0>>
+With the goat secured in your powerful grasp, you step off the ferryman's boat.
+<br><br>
+From within the mist, a figure materializes, gradually becoming more defined against the shifting backdrop. Alcaz emerges, his form taking shape as if coalescing from the very essence of the mist. As he fully steps out of the mist, his form solidifies, becoming as tangible as before.
+<<elseif !$alcaz and !$ring>>
+You prepare to board the ferry. Alcaz places a hand on your arm, halting your action. "Hold, warrior," he says firmly. "We need to arrange payment for the ferryman."
+<<elseif !$alcaz and !$goat>>
+You prepare to board the ferry. Alcaz places a hand on your arm, halting your action. "Hold, warrior," he says firmly. "We need a sacrifice to appease the gods."
+<<elseif !$alcaz>>
+<<set $h.push('march-northbank', 9), $treat = 0, $door = 0, $present = 'ring', $room = 'darkriver', $alcaz = -1>>
+"You are ready to depart," Alcaz says. "Our paths must diverge for now, the ferryman's boat can only carry one at a time. I shall use my arcane arts to find another way across this boundary, and we will meet again at the other side." Alcaz becomes gradually less distinct as the mist thickens around him. His hands lift in a graceful gesture, fingers tracing unseen patterns in the air. With each step, Alcaz appears to dissolve into the mist, his form gradually dissipating into nothingness.
+<br><br>
+With the goat secured in your powerful grasp, you step onto the ferryman's boat.
+<br><br>
+The ferryman's unseen gaze fixes upon you. His hand, gnarled and weathered, emerges from the folds of his cloak, fingers outstretched. His demand is unspoken, but his gesture is clear: payment for passage across the boundary.
+<<elseif !$necklace>>
+You prepare to board the ferry. Lydia places a hand on your arm, halting your action. "My lord," she says firmly. "We need to arrange payment for the ferryman."
+<<elseif !$lydia>>
+You prepare to board the ferry. Lydia places a hand on your arm, halting your action. "My lord," she says firmly. "We need a sacrifice to appease the gods."
+<<else>>
+<<set $h.push('march-northbank', 9), $treat = 0, $door = 0, $present = 'necklace', $room = 'darkriver'>>
+With Lydia secured in your powerful grasp, you step onto the ferryman's boat.
+<br><br>
+The ferryman's unseen gaze fixes upon you. His hand, gnarled and weathered, emerges from the folds of his cloak, fingers outstretched. His demand is unspoken, but his gesture is clear: payment for passage across the boundary.
+<</if>>
+<</widget>>
+
+/* darkriver : Dark River */
+
+<<widget darkriver>>
+<h2>Dark River</h2><<set $rooms |= 1<<4>>
+The boat gently rocks on the waters of the dark river, its lantern swinging in rhythm with its currents.
+<br><br>
+<<if $present>>
+The boat is bumping gently against the small landing to the north. The mist hangs heavy here, giving an eerie quality to the surroundings. The <<regard ferryman>> stands at the edge of the boat, his form obscured by his dark cloak. Only his gnarled, weathered hands are visible, one of them extended towards you in a demand for payment.
+<<elseif $door>>
+The boat is bumping gently against the small landing to the <<march south>>. The mist hangs heavy here, giving an eerie quality to the surroundings. The <<regard ferryman>> stands at the edge of the boat, his form obscured by his dark cloak.
+<<elseif $monster>>
+<<switch $hits>>
+<<case 0>>
+A colossal <<smite serpent>> with a body as thick as a tree trunk, coils and twists upon itself. Its gaping maw, lined with rows of razor-sharp teeth, opens wide in a silent hiss.
+<<case 1>>
+The immense body of the <<smite serpent>> is writhing with a mixture of fury and pain. Some of its scales have cracked under the force of your attack, revealing raw, wounded flesh beneath.
+<<default>>
+The <<smite serpent>>'s movements grow sluggish as pain courses through its massive body, covered with jagged wounds oozing dark blood into the water.
+<</switch>>
+<br><br>
+The <<regard ferryman>> deftly maneuvers the boat, ensuring that it remains steady amidst the tumultuous waters.
+<<else>>
+The <<regard ferryman>> sits at the helm of the small boat, his cloaked form almost merging with the shadows. His hands, the only visible part of him, move with an eerie grace as they guide the boat through the river's depths. You sense a <<regard presence>> beneath the surface, something massive and ominous stirring in the depths.
+<</if>>
+<</widget>>
+
+<<widget present-ring>>
+<<if $undo>>
+<<set $ring = 1, $present = 'ring'>>
+The boat glides smoothly towards the landing, its bow gently bumping against the worn wooden landing, as the ferryman guides the boat expertly to a halt. The ferryman rises and returns the gold ring to you.
+<<else>>
+<<switch _args[0]>>
+<<case 'you'>>
+The ferryman seems to pause for a moment, his unseen gaze focusing on you. His hand remains motionless. Then, his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'your loincloth'>>
+The ferryman's hand pauses mid-motion, his fingers inches away from your loincloth. An air of confusion seems to emanate from beneath his hood as he hesitates. Then, with a slow, deliberate motion, his hand retreats, and his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'a bottle of wine'>>
+The ferryman's hand pauses mid-motion, his fingers inches away from the bottle of wine. An air of confusion seems to emanate from beneath his hood as he hesitates. Then, with a slow, deliberate motion, his hand retreats, and his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'your axe'>>
+The ferryman's hand pauses mid-motion, his fingers inches away from your axe. An air of confusion seems to emanate from beneath his hood as he hesitates. Then, with a slow, deliberate motion, his hand retreats, and his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'a gold ring'>>
+<<set $h.push('present-ring'), $ring = 2, $present = ''>>
+As you offer the gold ring to the ferryman, his hand takes the payment with a slow and deliberate movement. The ferryman then sits down at the helm of the small boat and pushes the boat away from the small landing. The mist thickens around the ferryman and the boat, as the ferryman begins to move the boat away from the landing. The landing starts to fade into the mist, vanishing from view. 
+<br><br>
+You sense a presence beneath the surface, something massive and ominous stirring in the depths.
+<<case 'a goat'>>
+As you present the goat to the ferryman, he retreats slightly and gazes downward, his form tense and almost submissive. He does not want to accept something that is not meant for him to take.
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget present-necklace>>
+<<if $undo>>
+<<set $necklace = 1, $present = 'necklace'>>
+The boat glides smoothly towards the landing, its bow gently bumping against the worn wooden landing, as the ferryman guides the boat expertly to a halt. The ferryman rises and returns the necklace to you.
+<<else>>
+<<switch _args[0]>>
+<<case 'you'>>
+The ferryman seems to pause for a moment, his unseen gaze focusing on you. His hand remains motionless. Then, his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'your loincloth'>>
+The ferryman's hand pauses mid-motion, his fingers inches away from your loincloth. An air of confusion seems to emanate from beneath his hood as he hesitates. Then, with a slow, deliberate motion, his hand retreats, and his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'a bottle of wine'>>
+The ferryman's hand pauses mid-motion, his fingers inches away from the bottle of wine. An air of confusion seems to emanate from beneath his hood as he hesitates. Then, with a slow, deliberate motion, his hand retreats, and his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'an axe handle'>>
+The ferryman's hand pauses mid-motion, his fingers inches away from the axe handle. An air of confusion seems to emanate from beneath his hood as he hesitates. Then, with a slow, deliberate motion, his hand retreats, and his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'your sword'>>
+The ferryman's hand pauses mid-motion, his fingers inches away from your sword. An air of confusion seems to emanate from beneath his hood as he hesitates. Then, with a slow, deliberate motion, his hand retreats, and his form seems to shift ever so slightly, as if he's shaking his head in disappointment.
+<<case 'a gold necklace'>>
+<<set $h.push('present-necklace'), $necklace = 2, $present = ''>>
+As you offer the necklace to the ferryman, his hand takes the payment with a slow and deliberate movement. The ferryman then sits down at the helm of the small boat and pushes the boat away from the small landing. The mist thickens around the ferryman and the boat, as the ferryman begins to move the boat away from the landing. The landing starts to fade into the mist, vanishing from view.
+<br><br>
+You sense a presence beneath the surface, something massive and ominous stirring in the depths.
+<<case 'Lydia'>>
+As you present Lydia to the ferryman, he retreats slightly and gazes downward, his form tense and almost submissive. He does not want to accept something that is not meant for him to take.
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget regard-presence>>
+<<if $undo and $lydia == 1>>
+<<set $door = 0>>
+The mist thickens around the ferryman and the boat, as the ferryman begins to move the boat away from the landing. The landing starts to fade into the mist, vanishing from view.
+<br><br>
+Something massive and ominous moves underneath the boat, but does not rise to the surface.
+<<elseif $undo>>
+<<set $monster = ''>>
+The serpent descends back into the depths from which it emerged. The river's surface calms and the mist closes in once more as if concealing the serpent's presence from the world above.
+<<elseif $lydia == 1>>
+<<set $h.push('regard-presence'), $door = 1>>
+"Something massive and ominous stirred beneath the surface but did not rise to challenge our crossing," you note.
+<br><br> 
+Lydia concurs, saying, "I felt it too. It's as though something is aware of our presence but has opted not to interfere." 
+<br><br> 
+The boat glides smoothly towards the landing, its bow gently bumping against the worn wooden landing, as the ferryman guides the boat expertly to a halt. 
+<<else>>
+<<set $h.push('regard-presence'), $monster = 'serpent'>>
+You feel the ominous presence approaching you from underneath, slowly rising and circling the ferry until it reaches the river's surface. 
+<br><br> 
+A massive serpent with a body as thick as a tree trunk erupts from the waters, raising its head with a deafening roar, its maw lined with rows of razor-sharp teeth. The serpent turns its head towards you and prepares to strike.
+<</if>>
+<</widget>>
+
+<<widget smite-serpent>>
+<<if $undo>>
+<<set $monster = 'serpent', $door = 0>>
+The mist thickens around the ferryman and the boat, as the ferryman begins to move the boat away from the landing. The landing starts to fade into the mist, vanishing from view.
+<br><br>
+The serpent resurfaces with a thunderous roar, its strength revitalized.
+<<else>>
+<<switch $hits>>
+<<case 0>>
+<<set $hits = 1>>
+You tighten your grip on your battle axe, raising your weapon high and bringing it crashing down upon the serpent's head. Your strike is swift and powerful, connecting with a resounding impact. The serpent recoils with a guttural roar of pain, but you will need more smites to take it down.
+<<case 1>>
+<<set $hits = 2>>
+Summoning your inner strength, you strike again, your axe cleaving through the air with a force echoing your resolve. The serpent's scales splinter under the assault, yet it still thrashes and lunges, its massive form a testament to its relentless power. Another smite might take it down.
+<<default>>
+<<set $h.push('smite-serpent'), $hits = 0, $monster = '', $door = 1, $kills |= 1<<1>>
+On your third strike, your battle cry rings out as your axe finds its mark once more. With a final, earth-shaking roar rippling through the waters, the serpent retreats, sinking back into the depths from which it emerged. The river's surface calms and the mist closes in once more as if concealing the serpent's presence from the world above.
+<br><br>
+Breathing heavily, you stand victorious, your axe held high. The danger has passed, at least for now. The ferryman rises and begins to prepare for mooring the small boat.
+<br><br>
+The boat glides smoothly towards the landing, its bow gently bumping against the worn wooden landing, as the ferryman guides the boat expertly to a halt. 
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget loot-ferryman>>
+<<if $undo>>
+<<set $necklace = 2>>
+Lydia returns her necklace to you, and you hide it beneath the ferryman's cloak.
+<<else>>
+<<set $h.push('loot-ferryman'), $necklace = 0, $loots |= 1<<5>>
+"My lord," Lydia says, her voice trembling, "it is //exactly// like the legend. There is no bell here, and the ferryman will steal our life force, for there is no way back."
+<br><br>
+"In the city, we behand thieves," you say, "but it seems you've retained yours, ferryman." A strange sensation washes over you as if you've walked into a spider's web. "Or rather," you continue, as you pull away the ferryman's cloak, "hands are all you have left."
+<br><br>
+Lydia gasps in horror, staring at the skeletal figure of the ferryman as you retrieve her necklace from its bony frame and hand it back to her. "I fear I was mistaken. We are facing something far worse than a sorcerer. Our enemy appears to be an accursed necromancer," you conclude, letting the cloak go to cover up the ferryman once more.
+<</if>>
+<</widget>>
+
+<<widget march-darkriver>>
+<<if $undo and $goat>>
+<<set $room = 'darkriver', $present = '', $door = 1>>
+With the goat secured in your powerful grasp, you step onto the ferryman's boat.
+<<elseif $undo>>
+<<set $room = 'darkriver', $present = '', $door = 1>>
+With Lydia secured in your powerful grasp, you step onto the ferryman's boat.
+<<elseif $goat>>
+<<set $h.push('march-darkriver', 9), $room = 'southbank', $present = 'goat', $door = 0>>
+With the goat secured in your powerful grasp, you step off the ferryman's boat.
+<<elseif $necklace>>
+"Hold on," Lydia says, "you promised to give me back my necklace. Don't think you can just forget about it!"
+<<else>>
+<<set $h.push('march-darkriver', 9), $room = 'southbank', $present = 'lydia', $door = 0>>
+With Lydia secured in your powerful grasp, you step off the ferryman's boat.
+<</if>>
+<</widget>>
+
+/* southbank : South Bank */
+
+<<widget southbank>>
+<h2>South Bank</h2><<set $rooms |= 1<<5>>
+A dark and foreboding river, its waters shrouded in dense, swirling mist, winds its way slowly through the landscape. The <<regard moon>> is full, casting a pale glow upon the scene. The mist glides across the river like a snake through desert sands.
+<br><br>
+To the north, a small landing extends into the mist-covered river.<<if $present or $monster>> The boat, moored to the landing, rests like a shadow upon the dark waters. Its <<regard ferryman occupant>>, shrouded in a dark cloak, appears to be waiting for something.<</if>> To the south, <<if $door>>the stone gate stands open, providing <<march passage>> into darkness beyond<<else>>a stone gate blocks your way into the fortress of the sorcerer, its surface etched with intricate designs depicting the eternal struggle between the Gods of Order and Chaos. The images seem to move and shift as if they carry a life of their own<</if>>.
+<br><br>An <<regard altar>> dominates the area. Above the altar, a towering idol looms, its form reflecting both the chaotic and ordered aspects of the deities it represents.
+<<if $monster == 'corpse'>>
+<br><br>The <<smite corpse>>'s flesh is mottled, patches of rot and decay evident on its body. Tattered clothing hangs loosely from its frame, and its limbs move with an unnatural stiffness.
+<<elseif $monster == 'corpses'>>
+<br><br>Three <<smite corpses>> surround you, arms outstretched and fingers curled into gnarled claws. Tattered clothing hangs loosely from their frames, and their steps are uneven, but they are determined to reach you.
+<</if>>
+<<if !$alcaz>>
+<br><br>
+<<regard Alcaz>> is looking at the gate depicting the eternal struggle between the Gods of Order and Chaos.
+<<elseif !$lydia>>
+<br><br>
+<<regard Lydia>> is looking at the gate depicting the eternal struggle between the Gods of Order and Chaos.
+<</if>>
+<</widget>>
+
+<<widget lydia-complains>>
+<<switch $cycle>>
+<<case 0>>
+From within the altar, Lydia's muffled voice reaches your ears as she calls out to you. "My lord, this is not the time for heroic exploits! Get me out of here before whatever is out there decides to dine on a priestess instead!" 
+<<case 1>>
+Lydia's voice rises again from within the altar, her tone more urgent. "My lord, please focus on our escape! I sense evil closing in, and I'd rather not become its main course!"
+<<case 2>>
+Lydia's voice echoes from the altar, a touch of annoyance in her words. "My lord, can't you save the evil bashing for later? A timely rescue would be very much appreciated!"
+<<case 3>>
+From within the altar, Lydia's muffled voice reaches your ears as she calls out to you. "My lord, this is not the time for heroic exploits! Get me out of here before whatever is out there decides to dine on a priestess instead!" 
+<<default>>
+<<set $cycle = -1>>
+Lydia's voice rises again from within the altar, her tone more urgent. "My lord, please focus on our escape! I sense evil closing in, and I'd rather not become its main course!"
+<</switch>>
+<<set $cycle++>>
+<</widget>>
+
+<<widget regard-altar>>
+<<if $present>>
+The altar appears to be awaiting its sacrifice.
+<<elseif $goat == 2>>
+From within the altar, you hear a muffled "baaaaaaaaaa" from the <<loot altar 'trapped goat'>>.
+<<elseif $lydia == 2>>
+<<lydia-complains>> Maybe you should <<loot altar 'attempt a rescue'>>?
+<<else>>
+The altar appears to have been looted, for it is open and empty.
+<</if>>
+<</widget>>
+
+<<widget present-goat>>
+<<if $undo>>
+<<set $present = 'goat', $monster = '', $goat = 1, $door = 0>>
+The wandering corpse begins to dig into the ground, covering itself with earth as it goes. After a while, the ground before you settles and becomes still.
+<br><br>
+The images on the gate to the south seem to come alive, rearranging their positions. The gate's surface starts to tremble, and the solid stone gradually closes until only a hairline fracture remains. Then the fracture knits itself together, and the stone's surface smoothes over as the gate reclaims its original form.
+<br><br>
+The altar's surface glows with an eerie light, and the goat slowly rises through it. You seize the goat, and the surface of the altar darkens, leaving no trace of what transpired here.
+<<else>>
+<<switch _args[0]>>
+<<case 'you'>>
+As you present yourself, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'your loincloth'>>
+As you present your loincloth, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'a bottle of wine'>>
+As you present the bottle of wine, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'your axe'>>
+As you present your axe, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'a goat'>>
+<<set $h.push('present-goat'), $present = '', $monster = 'corpse', $goat = 2, $door = 1>>
+You place the goat upon the altar before the idol. As the goat touches the surface of the altar, the altar's edges begin to glow with an eerie light, and the goat slowly sinks into it. The surface then darkens again, leaving no trace of the offering.
+<br><br>
+The images on the gate to the south seem to come alive, rearranging their positions. The gate's surface starts to tremble, and a hairline fracture emerges, tracing a path across the carvings. Slowly, the solid stone gives way, revealing a passage into darkness beyond.
+<br><br>
+The ground before you heaves and shifts as a wandering corpse emerges, clawing its way out of the earth. It slowly rises with outstretched arms and milky white, glazed-over eyes, turning toward you.
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget present-lydia>>
+<<if $undo>>
+<<set $present = 'lydia', $monster = '', $lydia = 1, $door = 0>>
+The wandering corpses begin to dig into the ground, covering themselves with earth as they go. After a while, the ground before you settles and becomes still.
+<br><br>
+The images on the gate to the south seem to come alive, rearranging their positions. The gate's surface starts to tremble, and the solid stone gradually closes until only a hairline fracture remains. Then the fracture knits itself together, and the stone's surface smoothes over as the gate reclaims its original form.
+<br><br>
+The altar's surface glows with an eerie light, and Lydia slowly rises through it. You seize Lydia, and the surface of the altar darkens, leaving no trace of what transpired here.
+<<else>>
+<<switch _args[0]>>
+<<case 'you'>>
+As you present yourself, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'your loincloth'>>
+As you present your loincloth, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'a bottle of wine'>>
+As you present the bottle of wine, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'your sword'>>
+As you present your sword, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'an axe handle'>>
+As you present the axe handle, the altar trembles, its surface crackling with an unsettling darkness.
+<<case 'Lydia'>>
+<<set $h.push('present-lydia'), $present = '', $monster = 'corpses', $lydia = 2, $door = 1>>
+You place Lydia upon the altar before the idol. As Lydia touches the surface of the altar, the altar's edges begin to glow with an eerie light, and Lydia slowly sinks into it. "I'll be back," you say to her, as the surface darkens, leaving no trace of the offering that had been placed upon it.
+<br><br>
+The images on the gate to the south seem to come alive, rearranging their positions. The gate's surface starts to tremble, and a hairline fracture emerges, tracing a path across the carvings. Slowly, the solid stone gives way, revealing a passage into darkness beyond.
+<br><br>
+The ground before you heaves and shifts as a wandering corpse emerges, clawing its way out of the earth. It slowly rises with outstretched arms and milky white, glazed-over eyes, turning toward you. Two more wandering corpses claw their way out from the earth. They stagger towards you until you are surrounded by corpses on three sides.
+<</switch>>
+<</if>>
+<</widget>>
+
+<<widget smite-corpse>>
+<<if $undo>>
+<<set $monster = 'corpse', $alcaz = -1>>
+Alcaz becomes gradually less distinct as the mist thickens around him. His hands lift in a graceful gesture, fingers tracing unseen patterns in the air. With each step, Alcaz appears to dissolve into the mist, his form gradually dissipating into nothingness. 
+<br><br>
+From the haze emerges a small boat, gliding toward the landing. The air seems to thicken as the boat nears, the mist clinging to the vessel like a protective shroud. The glimmer of a lantern at the prow illuminates the water's surface, casting an eerie glow dancing with the mist. Clad in a black cloak, the ferryman himself remains concealed, his identity veiled in shadows. Only his hands are visible, gnarled and weathered, their movements deftly guiding the boat toward the shore. 
+<br><br>
+A cloud of noxious particles materializes, coalescing into the form of a wandering corpse.
+<<else>>
+<<set $h.push('smite-corpse'), $monster = '', $alcaz = 0, $kills |= 1<<2>>
+You swiftly bring your axe down upon the corpse. The blade connects with its decaying flesh, and the impact sends a shudder through the creature's form, as you sever bone and sinew. The corpse's body collapses under the force of your blow. In an instant, its form bursts into a cloud of noxious particles, carried away by an ethereal wind, which seems to erase the remnants of its cursed existence.
+<br><br>
+The ferryman radiates disappointment as he watches the wandering corpse fail to kill you. The ferryman's boat slowly glides away from the shore, disappearing into the dense mist. The lantern's glow dims, casting an eerie light on the river before it, too, is swallowed by the mist. 
+<br><br>
+From within the mist, a figure materializes, gradually becoming more defined against the shifting backdrop. Alcaz emerges, his form taking shape as if coalescing from the very essence of the mist. As he fully steps out of the mist, his form solidifies, becoming as tangible as before.
+<br><br>
+"Ah, my lord," Alcaz greets you, "I see you've faced the challenges of this place head-on, as I knew you would." Alcaz's expression turns more serious. "The sorcerer noticed my crossing of the boundary. He sent a ripple of energy, a warning, to deter my passage. It took me some time to circumvent his magical gaze and finally rejoin you here."
+<</if>>
+<</widget>>
+
+<<widget smite-corpses>>
+<<if $undo>>
+<<set $monster = 'corpses'>>
+From the haze emerges a small boat, gliding toward the landing. The air seems to thicken as the boat nears, the mist clinging to the vessel like a protective shroud. The glimmer of a lantern at the prow illuminates the water's surface, casting an eerie glow dancing with the mist. Clad in a black cloak, the ferryman himself remains concealed, his identity veiled in shadows. Only his hands are visible, gnarled and weathered, their movements deftly guiding the boat toward the shore.
+<br><br>
+Clouds of noxious particles materialize, coalescing into the forms of three wandering corpses.
+<<else>>
+<<set $h.push('smite-corpses'), $monster = '', $kills |= 1<<3>>
+You channel your primal strength into a powerful swing of your sword, cleaving all three corpses in a single smite. The corpses's bodies collapse under the force of your blow. In an instant, their forms burst into clouds of noxious particles, carried away by an ethereal wind, which seems to erase the remnants of their cursed existence.
+<br><br>
+The ferryman radiates disappointment as he watches the wandering corpses fail to kill you. The ferryman's boat slowly glides away from the shore, disappearing into the dense mist. The lantern's glow dims, casting an eerie light on the river before it, too, is swallowed by the mist.
+<</if>>
+<</widget>>
+
+<<widget loot-altar>>
+<<if $undo and !$lydia>>
+<<set $lydia = 2>>
+You seize Lydia and, ignoring her protests, place her back into the altar, which then closes, trapping Lydia within.
+<<elseif $undo>>
+<<set $goat = 2>>
+As the goat reappears, you swiftly seize it and place it back into the altar, which then closes, trapping the goat within.
+<<elseif $monster and $goat == 2>>
+Looting can wait until you have dealt with the corpse.
+<<elseif $monster>>
+Looting can wait until you have dealt with the corpses.
+<<elseif $goat == 2>>
+<<set $h.push('loot-altar'), $goat = -1, $loots |= 1<<6>>
+You inspect the altar, searching for any hidden mechanisms or openings. As your fingers graze a specific part of the altar, a hairline crack opens, revealing the innards of the altar. You carefully lift the goat out of the altar and set it free. You are no shepherd, and you have no need for a goat.
+<<else>>
+<<set $h.push('loot-altar'), $lydia = 0, $loots |= 1<<7>>
+You inspect the altar, searching for any hidden mechanisms or openings. As your fingers graze a specific part of the altar, a hairline crack opens, revealing the innards of the altar. You gently lift Lydia out of the altar and put her on her feet again.
+<</if>>
+<</widget>>
+
+<<widget march-southbank>>
+<<if $undo>>
+<<set $room = 'southbank', $door = 1, $glow = 0>>
+You retrace your steps with a determined air, retreating back to the south bank.
+<<elseif $goat == 2>>
+From within the altar, you hear a muffled "baaaaaaaaaa" from the trapped goat. You turn around and go back to the altar.
+<<elseif $lydia == 2>>
+<<lydia-complains>> You turn around and go back to the altar.
+<<elseif !$alcaz>>
+<<set $h.push('march-southbank', 9), $room = 'order1', $door = 0, $glow = 1>>
+As you pass through the Gate of Order and Chaos, the darkness envelops you like a shroud. Alcaz raises his staff and murmurs a brief incantation. The staff starts emanating a soft, ethereal glow. Step by step, you traverse the dimly lit path, until you reach a small island in this realm of darkness.
+<br><br>
+"Be mindful, my lord," Alcaz warns. "This place is treacherous, and the boundaries between reality and the unknown are blurred. One false step, and you could be lost to the darkness forever. Let us tread carefully."
+<<else>>
+<<set $h.push('march-southbank', 9), $room = 'order1', $door = 0, $glow = 1>>
+As you pass through the Gate of Order and Chaos, the darkness envelops you like a shroud. Lydia touches her necklace, and it starts to emanate a soft, ethereal glow. Step by step, you traverse the dimly lit path, until you reach a small island in this realm of darkness.
+<br><br>
+"Be careful, my lord," Lydia warns. "This place feels treacherous, and the boundaries between reality and the unknown are blurred. One false step, and you could be lost to the darkness forever. Let us tread carefully."
+<</if>>
+<</widget>>
+
+<</nobr>>
+
+
+:: Room {"position":"700,100","size":"100,100"}
+<span id="room"><<print '<<'+$room+'>>'>></span>
+<<if $present>>
+//To present something to someone, <<if setup.UiBarIsStowed()>>expand the sidebar by clicking the <button id="ui-bar-toggle-stowed" onclick="$('#ui-bar').removeClass('stowed');"></button> button, and <</if>>make your selection from your inventory at the top of the sidebar.//<</if>>
+<<done>><<run $("#passages").addClass("no-t8n")>><</done>>
+
+
+:: StoryInit {"position":"100,300","size":"100,100"}
+/* achievements */
+
+<<set $rooms = 0>> /* visited locations */
+<<set $loots = 0>> /* looted treasures */
+<<set $kills = 0>> /* defeated enemies */
+<<set $secs = 0>> /* discovered secrets */
+<<set $done = 0>> /* set when story done */
+
+/* inventory & children */
+
+<<set $conan = -1>> /* -1:gone 0:room */
+<<set $loincloth = 0>> /* 0:bed 1:worn */
+<<set $bottle = 0>> /* 0:table 1:closed 2:open */
+<<set $vial = 0>> /* 0:reliquary 1:closed 2:open */
+<<set $sword = 0>> /* -1: gone 0:throne 1:wielded 2:broken(hilt) */
+<<set $axe = 0>> /* -1: gone 0:trophies 1:wielded 2:broken(handle) */
+<<set $ring = 0>> /* 0:chest 1:carried 2:ferryman */
+<<set $necklace = 0>> /* 0:lydia 1:carried 2:ferryman */
+<<set $goat = 0>> /* -1: gone 0:meadow 1:carried 2:altar */
+<<set $lydia = -1>> /* -1:gone 0:room 1:carried 2:altar */
+<<set $alcaz = -1>> /* -1:gone 0:room */
+
+/* action */
+
+<<set $atext = ''>> /* action text */
+<<set $force = ''>> /* force an action */
+
+/* regard */
+
+<<set $mirror = 0>> /* 0:unregarded 1:regarded */
+<<set $marker1 = 0>> /* 0:unregarded 1:regarded */
+<<set $marker2 = 0>> /* 0:unregarded 1:regarded */
+<<set $marker3 = 0>> /* 0:unregarded 1:regarded 2:regarded twice */
+<<set $tablet = 0>> /* 0:unregarded 1:regarded */
+
+/* present */
+
+<<set $present = ''>>
+
+/* treat */
+
+<<set $treat = 0>>
+
+/* smite */
+
+<<set $monster = ''>>
+<<set $hits = 0>>
+<<set $shield = 0>>
+
+/* march */
+
+<<set $room = ''>>
+<<set $door = 0>> /* 0:closed 1:open */
+<<set $wind = ['north', 'northeast', 'east', 'southeast', 'up', 'down', 'northwest', 'west', 'southwest', 'south']>>
+
+/* miscellaneous */
+
+<<set $cycle = 0>> /* Text cycle 0 .. 4 */
+<<set $glow = 0>> /* 0:off, 1:on */
+<<set $mode = 0>> /* 0:init 1:free -1:undo */
+<<set $undo = 0>> /* 0:redo 1:undo */
+
+/* history */
+
+<<set $h = []>> /* widget for undo: $h.push(widget[,direction]) */
+
+/* Royal Bedroom actions */
+
+<<set $h.push('loot-bed'), $loincloth = 1>>
+<<set $h.push('regard-mirror'), $mirror = 1>>
+<<set $h.push('march-bedroom', 7), $room = 'diningroom'>>
+
+/* Dining Room actions */
+
+<<set $h.push('loot-table'), $bottle = 1>>
+<<set $h.push('march-diningroom', 7), $room = 'throneroom', $monster = 'demon', $door = 1>>
+
+/* Throne Room actions */
+
+<<set $h.push('seize-sword'), $sword = 1>>
+<<set $h.push('smite-demon'), $hits = 0, $monster = '', $sword = 2>>
+<<set $hlen = $h.length>>
+<<set $hhit = $hits>>
+
+/* Room names */
+
+<<set setup.rnames = {
+bedroom:"Royal Bedroom",
+diningroom:"Dining Room",
+throneroom:"Throne Room",
+northbank:"North Bank",
+darkriver:"Dark River",
+southbank:"South Bank",
+order1:"Path of Order",
+order2:"Path of Order",
+order3:"Path of Order",
+chaos1:"Path of Chaos",
+chaos2H:"Path of Chaos",
+chaos2V:"Path of Chaos",
+chaos2D:"Path of Chaos",
+chaos3H:"Path of Chaos",
+chaos3V:"Path of Chaos",
+chaos3D:"Path of Chaos",
+chaos4:"Path of Chaos",
+guardroom:"Guard Room",
+pit:"Pit of Darkness",
+corridor:"Dark Corridor",
+hall:"Hall of Justice",
+crypt:"Crypt of the Sage",
+cavern1:"Cavern of Bones",
+cavern2:"Cavern of Bones",
+cavern3:"Cavern of Bones",
+cavern4:"Cavern of Bones",
+cavern5:"Cavern of Bones"
+}>>
+
+
+
+:: StoryMenu {"position":"300,300","size":"100,100"}
+<<if !$conan>>
+<<if $present>>
+<<present 'you'>>
+<<if $loincloth == 1>><<present 'your loincloth'>><</if>>
+<<if $bottle == 1>><<present 'a bottle of wine'>><</if>>
+<<if $bottle == 2>><<present 'an empty bottle'>><</if>>
+<<if $vial == 1>><<present 'a vial of holy water'>><</if>>
+<<if $vial == 2>><<present 'an empty vial'>><</if>>
+<<if $sword == 1>><<present 'your sword'>><</if>>
+<<if $sword == 2>><<present 'a sword hilt'>><</if>>
+<<if $axe == 1>><<present 'your axe'>><</if>>
+<<if $axe == 2>><<present 'an axe handle'>><</if>>
+<<if $ring == 1>><<present 'a gold ring'>><</if>>
+<<if $necklace == 1>><<present 'a gold necklace'>><</if>>
+<<if $goat == 1>><<present 'a goat'>><</if>>
+<<if $lydia == 1>><<present 'Lydia'>><</if>>
+<<else>>
+<<linkaction regard-Conan 'you'>>
+<<if $loincloth == 1>><<linkaction regard-loincloth 'your loincloth'>><</if>>
+<<if $bottle == 1>><<linkaction regard-bottle 'a bottle of wine'>><</if>>
+<<if $bottle == 2>><<linkaction regard-bottle 'an empty bottle'>><</if>>
+<<if $vial == 1>><<linkaction regard-vial 'a vial of holy water'>><</if>>
+<<if $vial == 2>><<linkaction regard-vial 'an empty vial'>><</if>>
+<<if $sword == 1>><<linkaction regard-sword 'your sword'>><</if>>
+<<if $sword == 2>><<linkaction regard-sword 'a sword hilt'>><</if>>
+<<if $axe == 1>><<linkaction regard-axe 'your axe'>><</if>>
+<<if $axe == 2>><<linkaction regard-axe 'an axe handle'>><</if>>
+<<if $ring == 1>><<linkaction regard-ring 'a gold ring'>><</if>>
+<<if $necklace == 1>><<linkaction regard-necklace 'a gold necklace'>><</if>>
+<<if $goat == 1>><<linkaction regard-goat 'a goat'>><</if>>
+<<if $lydia == 1>><<linkaction regard-Lydia 'Lydia'>><</if>>
+<</if>>
+<<linkaction undo 'Undo'>>
+<</if>>
+<<link Credits Credits>><<set $conan = -1>><<run setup.stowUiBar()>><</link>>
+<<link Achievements Achievements>><<set $conan = -1>><<run setup.stowUiBar()>><</link>>
+
+
+
+:: Verbs [widget] {"position":"500,500","size":"100,100"}
+<<nobr>>
+
+/* undo */
+
+<<widget undo>>
+<<set $force = ''>>
+<<if ! $h.length>>
+You have just awoken from the realm of dreams. Now is the time to seize your adventure.
+<<elseif $hits>>
+In the heat of battle, there's no turning back.
+<<elseif !$mode and !$axe>>
+You have just embarked upon your adventure.
+<<elseif $mode < 0 and $room == 'northbank' and !$treat>>
+<<silently>>
+<<set $undo = 1>>
+<<for $h.length >>
+<<set _d = $h.pop()>>
+<<if typeof _d === 'number'>>
+<<set _a = $h.pop()>>
+<<print '<<'+_a+' '+_d+'>>'>>
+<<else>>
+<<print '<<'+_d+'>>'>>
+<</if>>
+<</for>>
+<<set $undo = 0, $mode = 1>>
+<</silently>>
+A shimmering radiance materializes to the east, its surface veiled in a shroud of mist. The air crackles with energy as the portal emerges, its edges dancing with hues of eerie light.
+<br><br>
+With Alcaz leading the way, you step confidently through the swirling portal, feeling its energies wrap around you.
+<br><br>
+//Time stretches, and events reverse faster than you can follow. Light around you then fades, leaving you surrounded in darkness. Even blinded, you sense a stirring. You feel the corruption growing around you, drawing closer and closer. A menacing power rises from the fortress in the night and approaches, its wings beating in the darkness. The air becomes suffocating and hot, and you sense something strangling you...//
+<br><br>
+You wake up, untangle the sheet from around your throat, throw it aside, and get out of bed.
+<<else>>
+<<set $undo = 1>>
+<<for>>
+<<set _d = $h.pop()>>
+<<if typeof _d === 'number'>>
+<<set _a = $h.pop()>>
+<<print '<<'+_a+' '+_d+'>>'>>
+<<else>>
+<<print '<<'+_d+'>>'>>
+<</if>>
+<<if $mode >= 0>><<break>><</if>>
+<<set _d = $h[$h.length - 1]>>
+<<if typeof _d === 'number'>><<break>><</if>>
+<br><br>
+<</for>>
+<<set $undo = 0>>
+<</if>>
+<</widget>>
+
+/* action widget text */
+
+<<widget action>><<set $atext = '<<'+_args[0]+' "'+_args[1]+'">>'>><<run setup.stowUiBar()>><<goto Action>><</widget>>
+
+/* buttonaction widget text */
+
+<<widget buttonaction>><<button _args[1]>><<action _args[0] _args[1]>><</button>><</widget>>
+
+/* linkaction widget text */
+
+<<widget linkaction>><<link _args[1]>><<action _args[0] _args[1]>><</link>><</widget>>
+
+/* regard [widget = regard-text] text */
+
+<<widget regard>><<if _args.length == 1>><<linkaction `"regard-"+_args[0]` _args[0]>><<else>><<linkaction `"regard-"+_args[0]` _args[1]>><</if>><</widget>>
+
+/* seize [widget = seize-text] text */
+
+<<widget seize>><<if _args.length == 1>><<linkaction `"seize-"+_args[0]` _args[0]>><<else>><<linkaction `"seize-"+_args[0]` _args[1]>><</if>><</widget>>
+
+/* loot [widget = loot-text] text */
+
+<<widget loot>><<if _args.length == 1>><<linkaction `"loot-"+_args[0]` _args[0]>><<else>><<linkaction `"loot-"+_args[0]` _args[1]>><</if>><</widget>>
+
+/* treat [widget = treat-text] text */
+
+<<widget treat>><<if _args.length == 1>><<linkaction `"treat-"+_args[0]` _args[0]>><<else>><<linkaction `"treat-"+_args[0]` _args[1]>><</if>><</widget>>
+
+/* present text */
+
+<<widget present>><<linkaction `"present-"+$present` _args[0]>><</widget>>
+
+/* smite [widget = smite-text] text */
+
+<<widget smite>><<if _args.length == 1>><<linkaction `"smite-"+_args[0]` _args[0]>><<else>><<linkaction `"smite-"+_args[0]` _args[1]>><</if>><</widget>>
+
+/* march (widget = march-$room) text */
+
+<<widget march>><<if _args.length == 1>><<linkaction `"march-"+$room` _args[0]>><<else>><<linkaction _args[0] _args[1]>><</if>><</widget>>
+
+<</nobr>>
+
+
+:: StoryScript [script]
+Config.history.controls = false;
+Config.history.maxStates = 10;
+
+Config.saves.onSave = function (save) {
+	save.title = setup.rnames[variables().room];
+};
+
+setup.stowUiBar = function () {
+	if (typeof Config.ui.stowBarInitially === 'number' && $(window).width() <= Config.ui.stowBarInitially) {
+		$('#ui-bar').addClass('stowed');
+	}
+};
+
+setup.unstowUiBar = function () {
+	$('#ui-bar').removeClass('stowed');
+};
+
+setup.UiBarIsStowed = function ()  {
+  return $('#ui-bar').hasClass('stowed');
+};
+
+var settingThemeHandler = function () {
+	var $html = $("html");
+	$html.removeClass("light");
+	if (settings.light) {
+		$html.addClass("light");
+	}
+};
+
+Setting.addToggle("light", {
+  label: "Use light theme?",
+  default: false,
+  onInit: settingThemeHandler,
+  onChange: settingThemeHandler
+});
+
+var settingFontSize = ["100%", "130%", "150%"];
+var resizeFont = function() {
+    var size = document.getElementById("passages");
+    switch (settings.fontSize) {
+        case "100%":
+            size.style.fontSize = "100%";
+            break;
+        case "130%":
+            size.style.fontSize = "130%";
+            break;
+        case "150%":
+            size.style.fontSize = "150%";
+            break;
+    }
+};
+
+Setting.addList("fontSize", {
+    label		: "Change font size",
+    list		: settingFontSize,
+    default     : "100%",
+    onInit		: resizeFont,
+    onChange	: resizeFont
+});
+
+setup.bitCount = function (n) {
+  n = n - ((n >> 1) & 0x55555555)
+  n = (n & 0x33333333) + ((n >> 2) & 0x33333333)
+  return ((n + (n >> 4) & 0xF0F0F0F) * 0x1010101) >> 24
+};
+
+setup.regionCount = function (r, n, i, s) {
+  let p = (1<<(i+s)) - (1<<i)
+  let b = setup.bitCount(n & ((1<<(i+s)) - (1<<i)))
+  if (b == 0) {
+    return ""
+  }
+  return '<br>- ' + r + '(' + b + ')'
+};
+
+:: StoryStylesheet [stylesheet]
+@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+a {
+  	font-weight: bold;
+}
+body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {font-family: 'Alice', serif;}
+.light body {
+    background-color:#fff;
+    color:#111;
+}
+.light #ui-dialog-body {
+    background-color:#fff;
+}
+.light a {
+    color: #4722cc;
+  	font-weight: bold;
+}
+.light a:hover {
+    color: #8822cc;
+}
+.light #menu li a:hover {
+    color: #eee;
+    background: #88f;
+}
+.light button {
+    background: purple;
+    border-color: #b70bb7;
+}
+.light button:not([disabled]):hover {
+    background: #b70bb7;
+    border-color: purple;
+}
+.light button:disabled {
+    background-color: #444;
+    border: 1px solid #666;
+}
+.light input, .light select, .light textarea {
+    color: #111;
+}
+.light input:not(:disabled):focus, 
+.light input:not(:disabled):hover, 
+.light select:not(:disabled):focus, 
+.light select:not(:disabled):hover, 
+.light textarea:not(:disabled):focus, 
+.light textarea:not(:disabled):hover {
+    color: #eee;
+    background-color: #88f;
+}
+.light #ui-dialog-titlebar {
+    background: #ccc;
+}
+.light #ui-dialog-close {
+    color: #4722cc;
+}
+.light #ui-bar {
+    background: #f5f5f5;
+    border-right-color: purple;
+}
+.light #ui-bar-history [id|="history"], .light #ui-bar-toggle {
+    color: #1d005e;
+}
+.light #ui-bar-history [id|="history"]:disabled {
+    color: #80008036;
+}
+.light #ui-bar-history [id|="history"], .light #ui-bar-toggle {
+    border-color: purple;
+}
+.light #menu li a {
+    color: #111;
+}
+.light #menu li a:hover {
+    color: #eee;
+    background: #88f;
+}
+.light #menu ul {
+    border-color: purple;
+}
+.light #menu li:not(:first-child) {
+    border-color: purple;
+}
+.light #menu-core li[id|="menu-item"] a::before, .light #ui-bar-history [id|="history"], .light #ui-bar-toggle::before {
+    color: #1d005e;
+}
+
+ul#menu-story {
+    border: none;
+}
+#menu-story li {
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
+}
+#menu-story li:first-child {
+    border-top: 1px solid #444;
+}
+#menu-story li:last-child {
+    border-bottom: 1px solid #444;
+}
+#menu-story li:nth-last-child(3) {
+    border-bottom: 1px solid #444;
+    margin-bottom: 1em;
+}
+#menu-story li:nth-last-child(4) {
+    border-bottom: 1px solid #444;
+    margin-bottom: 1em;
+}
+#ui-bar-toggle-stowed {
+	background-color: #444;
+	border-color: #eee;
+}
+.light #ui-bar-toggle-stowed {
+    background-color:#fff;
+    color:#111;
+    border-color: purple;
+}
+#ui-bar-toggle-stowed:before {
+	font-family: "tme-fa-icons";
+	font-style: normal;
+	content: "\e81e";
+}
+
